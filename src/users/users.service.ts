@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { User } from './entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from './dto/create.dto';
+import { UpdateUserDto } from './dto/update.dto';
 
 @Injectable()
 export class UsersService {
@@ -21,5 +22,11 @@ export class UsersService {
     user.imageUrl = 'default image link';
 
     return this.userRepository.save(user);
+  }
+
+  async updateUser(id: number, dto: UpdateUserDto) {
+    await this.userRepository.update(id, dto);
+
+    return `User: ${id} updated.`;
   }
 }
