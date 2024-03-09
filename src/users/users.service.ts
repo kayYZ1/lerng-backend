@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { User } from './entity/user.entity';
-import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from './dto/create.dto';
 import { UpdateUserDto } from './dto/update.dto';
 
@@ -19,14 +19,20 @@ export class UsersService {
     user.username = dto.username;
     user.password = dto.password;
 
-    user.imageUrl = 'default image link';
+    user.imageUrl = 'https://placehold.co/600x400.png';
 
     return this.userRepository.save(user);
   }
 
   async updateUser(id: number, dto: UpdateUserDto) {
-    await this.userRepository.update(id, dto);
+    return await this.userRepository.update(id, dto);
+  }
 
-    return `User: ${id} updated.`;
+  async findOne(id: number) {
+    return await this.userRepository.findOne({ where: { id: id } });
+  }
+
+  async findOneWithEmail(email: string) {
+    return await this.userRepository.findOne({ where: { email: email } });
   }
 }
