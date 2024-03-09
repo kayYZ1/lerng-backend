@@ -3,12 +3,11 @@ import * as bcrypt from 'bcrypt';
 
 import { UsersService } from '../users/users.service';
 import { CreateUserDto } from '../users/dto/create.dto';
+import { SignInDto } from './dto/sign-in.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private readonly userService: UsersService,
-  ) {}
+  constructor(private readonly userService: UsersService) {}
 
   async signUp(dto: CreateUserDto) {
     const userExist = await this.userService.findOneWithEmail(dto.email);
@@ -23,5 +22,23 @@ export class AuthService {
     });
 
     return user;
+  }
+
+  async signIn(dto: SignInDto) {
+    const userExist = await this.userService.findOneWithEmail(dto.email);
+
+    if (!userExist) {
+      throw new BadRequestException('User does not exist');
+    }
+
+    const isMatch = await bcrypt.compare(dto.password, userExist.password);
+
+    if (!isMatch) {
+      throw new BadRequestException('Wrong password');
+    }
+
+    //Add JWT
+
+    return userExist;
   }
 }
