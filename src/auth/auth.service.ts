@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
 import { UsersService } from '../users/users.service';
@@ -7,7 +8,10 @@ import { SignInDto } from './dto/sign-in.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UsersService) {}
+  constructor(
+    private readonly userService: UsersService,
+    private jwtService: JwtService,
+  ) {}
 
   async signUp(dto: CreateUserDto) {
     const userExist = await this.userService.findOneWithEmail(dto.email);
@@ -37,8 +41,19 @@ export class AuthService {
       throw new BadRequestException('Wrong password');
     }
 
-    //Add JWT
+    const payload = {
+      sub: userExist.id,
+      email: userExist.email,
+      username: userExist.username,
+      avatar: userExist.imageUrl,
+      role: userExist.role,
+    };
 
-    return userExist;
+    const access_token = await this.jwtService.signAsync(payload);
+
+    return {
+      userExist,
+      access_token,
+    };
   }
 }
