@@ -106,4 +106,8 @@ export class AuthService {
       refreshToken,
     };
   }
+
+  async getMe(userId: number) {
+    return await this.userService.findOne(userId);
+  }
 }

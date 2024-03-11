@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -35,5 +36,12 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   signOut(@GetCurrId() userId: number) {
     return this.authService.signOut(userId);
+  }
+
+  @UseGuards(ATGuard)
+  @Get('/Me')
+  @HttpCode(HttpStatus.OK)
+  getMe(@GetCurrId() userId: number) {
+    return this.authService.getMe(userId);
   }
 }
