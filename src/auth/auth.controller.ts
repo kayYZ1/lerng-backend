@@ -39,7 +39,7 @@ export class AuthController {
   }
 
   @UseGuards(ATGuard)
-  @Get('/Me')
+  @Get('/me')
   @HttpCode(HttpStatus.OK)
   getMe(@GetCurrId() userId: number) {
     return this.authService.getMe(userId);

@@ -65,6 +65,8 @@ export class AuthService {
     return true;
   }
 
+  //ToDo: Add argon2 hashing for refreshToken.
+
   async refreshTokens(userId: number) {
     const user = await this.userService.findOne(userId);
 
