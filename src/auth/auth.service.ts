@@ -1,10 +1,16 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
 import { UsersService } from '../users/users.service';
 import { CreateUserDto } from '../users/dto/create.dto';
+import { UserRole } from '../users/enums/user.enum';
 import { SignInDto } from './dto/sign-in.dto';
+import { JwtPayload } from './types';
 
 @Injectable()
 export class AuthService {
@@ -41,19 +47,63 @@ export class AuthService {
       throw new BadRequestException('Wrong password');
     }
 
-    const payload = {
-      sub: userExist.id,
-      email: userExist.email,
-      username: userExist.username,
-      avatar: userExist.imageUrl,
-      role: userExist.role,
+    const tokens = await this.getTokens(
+      userExist.id,
+      userExist.email,
+      userExist.role,
+    );
+    await this.updateRefreshToken(userExist.id, tokens.refreshToken);
+
+    return tokens;
+  }
+
+  async signOut(userId: number) {
+    await this.userService.updateRt(userId, {
+      refreshToken: null,
+    });
+
+    return true;
+  }
+
+  async refreshTokens(userId: number) {
+    const user = await this.userService.findOne(userId);
+
+    if (!user || !user.refreshToken)
+      throw new ForbiddenException('Access prohibited');
+
+    const tokens = await this.getTokens(user.id, user.email, user.role);
+    await this.updateRefreshToken(user.id, tokens.refreshToken);
+
+    return tokens;
+  }
+
+  async updateRefreshToken(userId: number, refreshToken: string) {
+    await this.userService.updateRt(userId, {
+      refreshToken,
+    });
+  }
+
+  async getTokens(userId: number, email: string, role: UserRole) {
+    const payload: JwtPayload = {
+      sub: userId,
+      email,
+      role,
     };
 
-    const access_token = await this.jwtService.signAsync(payload);
+    const [accessToken, refreshToken] = await Promise.all([
+      this.jwtService.signAsync(payload, {
+        secret: process.env.access_token,
+        expiresIn: '1h',
+      }),
+      this.jwtService.signAsync(payload, {
+        secret: process.env.refresh_token,
+        expiresIn: '7d',
+      }),
+    ]);
 
     return {
-      userExist,
-      access_token,
+      accessToken,
+      refreshToken,
     };
   }
 }

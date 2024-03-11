@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { User } from './entity/user.entity';
 import { CreateUserDto } from './dto/create.dto';
 import { UpdateUserDto } from './dto/update.dto';
+import { UpdateRtDto } from './dto/update-rt.dto';
 
 @Injectable()
 export class UsersService {
@@ -25,6 +26,10 @@ export class UsersService {
   }
 
   async updateUser(id: number, dto: UpdateUserDto) {
+    return await this.userRepository.update(id, dto);
+  }
+
+  async updateRt(id: number, dto: UpdateRtDto) {
     return await this.userRepository.update(id, dto);
   }
 

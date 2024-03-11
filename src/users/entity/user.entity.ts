@@ -21,4 +21,7 @@ export class User {
 
   @Column({ type: 'varchar' })
   imageUrl: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  refreshToken: string | null;
 }
