@@ -1,9 +1,9 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
-  Param,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -15,6 +15,9 @@ import { UpdateUserDto } from './dto/update.dto';
 
 import { ATGuard } from '../common/guards/accessToken.guard';
 import { GetCurrId } from '../common/decorators/getCurrId.decorator';
+import { ROLES } from '../common/decorators/roles.decorator';
+import { RolesGuard } from '../common/guards/roles.guard';
+import { UserRole } from './enums/user.enum';
 
 @Controller('users')
 export class UsersController {
@@ -30,5 +33,12 @@ export class UsersController {
   @Patch('/update')
   update(@GetCurrId() id: number, @Body() dto: UpdateUserDto) {
     return this.usersService.updateUser(id, dto);
+  }
+
+  @ROLES(UserRole.ADMIN)
+  @UseGuards(ATGuard, RolesGuard)
+  @Get('/all')
+  getUsers() {
+    return this.usersService.getUsers();
   }
 }
