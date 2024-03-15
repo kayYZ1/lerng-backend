@@ -25,4 +25,10 @@ export class ModulesService {
 
     return this.courseModuleRepository.save(module);
   }
+
+  async getCourseModules(courseId: number) {
+    return await this.courseModuleRepository.find({
+      where: { course: { id: courseId } },
+    });
+  }
 }

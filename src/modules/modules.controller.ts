@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ModulesService } from './modules.service';
 import { CreateModuleDto } from './dto/create-module.dto';
 
@@ -16,5 +16,10 @@ export class ModulesController {
   @ROLES(UserRole.ADMIN)
   createModule(@Body() dto: CreateModuleDto, @Param('id') id: string) {
     return this.modulesService.createModule(dto, +id);
+  }
+
+  @Get('/:id')
+  getModules(@Param('id') id: string) {
+    return this.modulesService.getCourseModules(+id);
   }
 }
