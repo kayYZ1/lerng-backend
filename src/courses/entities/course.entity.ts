@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+
+import { CourseModule } from '../../modules/entities/module.entity';
 
 @Entity()
 export class Course {
@@ -6,8 +8,11 @@ export class Course {
   id: number;
 
   @Column({ type: 'varchar' })
-  name: string;
+  title: string;
 
   @Column({ type: 'varchar' })
   imageUrl: string;
+
+  @OneToMany(() => CourseModule, (module) => module.course)
+  modules: CourseModule[];
 }

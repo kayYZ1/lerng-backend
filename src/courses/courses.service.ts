@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Course } from './entities/course.entity';
 import { Repository } from 'typeorm';
+
+import { Course } from './entities/course.entity';
 import { CreateCourseDto } from './dto/create-course.dto';
 
 @Injectable()
@@ -13,9 +14,13 @@ export class CoursesService {
   async createCourse(dto: CreateCourseDto) {
     const course: Course = new Course();
 
-    course.name = dto.name;
-    course.imageUrl = dto.imageUrl; 
+    course.title = dto.title;
+    course.imageUrl = dto.imageUrl;
 
     return this.courseRepository.save(course);
+  }
+
+  async findCourseById(courseId: number) {
+    return await this.courseRepository.findOne({ where: { id: courseId } });
   }
 }
