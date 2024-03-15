@@ -110,6 +110,16 @@ export class AuthService {
   }
 
   async getMe(userId: number) {
-    return await this.userService.findOne(userId);
+    const user = await this.userService.findOne(userId);
+    const userModified = {
+      id: userId,
+      email: user.email,
+      username: user.username,
+      avatar: user.imageUrl,
+      role: user.role,
+      rt: user.refreshToken,
+    };
+
+    return userModified;
   }
 }
