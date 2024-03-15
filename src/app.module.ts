@@ -3,7 +3,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { UsersModule } from './users/users.module';
 import { User } from './users/entity/user.entity';
+import { Course } from './courses/entities/course.entity';
 import { AuthModule } from './auth/auth.module';
+import { CoursesModule } from './courses/courses.module';
 
 @Module({
   imports: [
@@ -14,11 +16,12 @@ import { AuthModule } from './auth/auth.module';
       username: 'kayz',
       password: '1234',
       database: 'LMSLinux',
-      entities: [User],
+      entities: [User, Course],
       synchronize: true,
     }),
     UsersModule,
     AuthModule,
+    CoursesModule,
   ],
 })
 export class AppModule {}
