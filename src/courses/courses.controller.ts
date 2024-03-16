@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 
@@ -16,5 +16,11 @@ export class CoursesController {
   @ROLES(UserRole.ADMIN)
   createCourse(@Body() dto: CreateCourseDto) {
     return this.coursesService.createCourse(dto);
+  }
+
+  @Get('/')
+  @UseGuards(ATGuard)
+  getCourses() {
+    return this.coursesService.getCourses();
   }
 }
