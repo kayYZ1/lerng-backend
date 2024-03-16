@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CourseModule } from './entities/module.entity';
+import { LearningModule } from './entities/module.entity';
 import { Repository } from 'typeorm';
 import { CreateModuleDto } from './dto/create-module.dto';
 import { CoursesService } from 'src/courses/courses.service';
@@ -8,13 +8,13 @@ import { CoursesService } from 'src/courses/courses.service';
 @Injectable()
 export class ModulesService {
   constructor(
-    @InjectRepository(CourseModule)
-    private courseModuleRepository: Repository<CourseModule>,
+    @InjectRepository(LearningModule)
+    private courseModuleRepository: Repository<LearningModule>,
     private courseService: CoursesService,
   ) {}
 
   async createModule(dto: CreateModuleDto, courseId: number) {
-    const module: CourseModule = new CourseModule();
+    const module: LearningModule = new LearningModule();
 
     const courseExist = await this.courseService.findCourseById(courseId);
 
@@ -29,6 +29,12 @@ export class ModulesService {
   async getCourseModules(courseId: number) {
     return await this.courseModuleRepository.find({
       where: { course: { id: courseId } },
+    });
+  }
+
+  async findModuleById(moduleId: number) {
+    return await this.courseModuleRepository.findOne({
+      where: { id: moduleId },
     });
   }
 }

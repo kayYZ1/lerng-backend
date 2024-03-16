@@ -8,7 +8,9 @@ import { AuthModule } from './auth/auth.module';
 import { ModulesModule } from './modules/modules.module';
 import { CoursesModule } from './courses/courses.module';
 
-import { CourseModule } from './modules/entities/module.entity';
+import { LearningModule } from './modules/entities/module.entity';
+import { ContentsModule } from './contents/contents.module';
+import { ModuleContent } from './contents/entities/content.entity';
 
 @Module({
   imports: [
@@ -19,13 +21,14 @@ import { CourseModule } from './modules/entities/module.entity';
       username: 'kayz',
       password: '1234',
       database: 'LMSLinux',
-      entities: [User, Course, CourseModule],
+      entities: [User, Course, LearningModule, ModuleContent],
       synchronize: true,
     }),
     UsersModule,
     AuthModule,
     CoursesModule,
     ModulesModule,
+    ContentsModule,
   ],
 })
 export class AppModule {}

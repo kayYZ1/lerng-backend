@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { CourseModule } from '../../modules/entities/module.entity';
+import { LearningModule } from '../../modules/entities/module.entity';
 
 @Entity()
 export class Course {
@@ -19,9 +19,13 @@ export class Course {
   @Column({ type: 'varchar' })
   imageUrl: string;
 
-  @CreateDateColumn({ precision: null, type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  @CreateDateColumn({
+    precision: null,
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   created: Date;
 
-  @OneToMany(() => CourseModule, (module) => module.course)
-  modules: CourseModule[];
+  @OneToMany(() => LearningModule, (module) => module.course)
+  modules: LearningModule[];
 }
