@@ -1,4 +1,10 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 import { CourseModule } from '../../modules/entities/module.entity';
 
@@ -12,6 +18,9 @@ export class Course {
 
   @Column({ type: 'varchar' })
   imageUrl: string;
+
+  @CreateDateColumn({ precision: null, type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  created: Date;
 
   @OneToMany(() => CourseModule, (module) => module.course)
   modules: CourseModule[];
