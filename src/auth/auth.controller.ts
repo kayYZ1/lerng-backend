@@ -39,6 +39,12 @@ export class AuthController {
   }
 
   @UseGuards(ATGuard)
+  @Post('/refresh')
+  refreshTokens(@GetCurrId() userId: number) {
+    return this.authService.refreshTokens(userId);
+  }
+
+  @UseGuards(ATGuard)
   @Get('/me')
   @HttpCode(HttpStatus.OK)
   getMe(@GetCurrId() userId: number) {
