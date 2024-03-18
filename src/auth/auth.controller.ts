@@ -34,12 +34,12 @@ export class AuthController {
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: 'lax',
       expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     });
 
-    res.send({ accessToken });
+    res.send(accessToken);
   }
 
   @UseGuards(ATGuard)
