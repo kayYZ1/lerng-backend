@@ -19,7 +19,6 @@ async function bootstrap() {
     credentials: true,
   });
   app.use(cookieParser());
-  app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(3000);
 }
