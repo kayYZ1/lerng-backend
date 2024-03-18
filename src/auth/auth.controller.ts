@@ -2,11 +2,13 @@ import {
   Body,
   Controller,
   Get,
+  Res,
   HttpCode,
   HttpStatus,
   Post,
   UseGuards,
 } from '@nestjs/common';
+import { Response } from 'express';
 
 import { AuthService } from './auth.service';
 import { CreateUserDto } from '../users/dto/create.dto';
@@ -27,8 +29,17 @@ export class AuthController {
 
   @Post('/local/sign-in')
   @HttpCode(HttpStatus.OK)
-  signIn(@Body() dto: SignInDto) {
-    return this.authService.signIn(dto);
+  async signIn(@Body() dto: SignInDto, @Res() res: Response) {
+    const { accessToken, refreshToken } = await this.authService.signIn(dto);
+
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    });
+
+    res.send({ accessToken });
   }
 
   @UseGuards(ATGuard)
@@ -40,8 +51,18 @@ export class AuthController {
 
   @UseGuards(ATGuard)
   @Post('/refresh')
-  refreshTokens(@GetCurrId() userId: number) {
-    return this.authService.refreshTokens(userId);
+  async refreshTokens(@GetCurrId() userId: number, @Res() res: Response) {
+    const { accessToken, refreshToken } =
+      await this.authService.refreshTokens(userId);
+
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'lax',
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    });
+
+    res.send(accessToken);
   }
 
   @UseGuards(ATGuard)
