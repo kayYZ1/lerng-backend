@@ -35,11 +35,11 @@ export class AuthController {
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: true,
-      sameSite: 'lax',
+      sameSite: 'strict',
       expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     });
 
-    res.send(accessToken);
+    res.send({ accessToken });
   }
 
   @UseGuards(ATGuard)
@@ -58,11 +58,11 @@ export class AuthController {
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: true,
-      sameSite: 'lax',
+      sameSite: 'strict',
       expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     });
 
-    res.send(accessToken);
+    res.send({ accessToken });
   }
 
   @UseGuards(ATGuard)
