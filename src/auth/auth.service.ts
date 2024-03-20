@@ -95,7 +95,7 @@ export class AuthService {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(payload, {
         secret: process.env.access_token,
-        expiresIn: '1h',
+        expiresIn: '15m',
       }),
       this.jwtService.signAsync(payload, {
         secret: process.env.refresh_token,
@@ -117,7 +117,6 @@ export class AuthService {
       username: user.username,
       avatar: user.imageUrl,
       role: user.role,
-      rt: user.refreshToken,
     };
 
     return userModified;
