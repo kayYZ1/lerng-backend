@@ -58,14 +58,10 @@ export class AuthService {
   }
 
   async signOut(userId: number) {
-    await this.userService.updateRt(userId, {
+    return await this.userService.updateRt(userId, {
       refreshToken: null,
     });
-
-    return true;
   }
-
-  //ToDo: Add argon2 hashing for refreshToken.
 
   async refreshTokens(userId: number) {
     const user = await this.userService.findOne(userId);
@@ -95,11 +91,11 @@ export class AuthService {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(payload, {
         secret: process.env.access_token,
-        expiresIn: '15m',
+        expiresIn: '15s',
       }),
       this.jwtService.signAsync(payload, {
         secret: process.env.refresh_token,
-        expiresIn: '7d',
+        expiresIn: '1d',
       }),
     ]);
 

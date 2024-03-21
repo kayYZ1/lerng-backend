@@ -16,6 +16,7 @@ import { SignInDto } from './dto/sign-in.dto';
 
 import { GetCurrId } from '../common/decorators/getCurrId.decorator';
 import { ATGuard } from '../common/guards/accessToken.guard';
+import { RTGuard } from 'src/common/guards/refreshToken.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -33,10 +34,10 @@ export class AuthController {
     const { accessToken, refreshToken } = await this.authService.signIn(dto);
 
     res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
+      httpOnly: false,
       secure: true,
       sameSite: 'strict',
-      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
     });
 
     res.send({ accessToken });
@@ -49,17 +50,17 @@ export class AuthController {
     return this.authService.signOut(userId);
   }
 
-  @UseGuards(ATGuard)
-  @Post('/refresh')
+  @UseGuards(RTGuard)
+  @Get('/refresh')
   async refreshTokens(@GetCurrId() userId: number, @Res() res: Response) {
     const { accessToken, refreshToken } =
       await this.authService.refreshTokens(userId);
 
     res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
+      httpOnly: false,
       secure: true,
       sameSite: 'strict',
-      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
     });
 
     res.send({ accessToken });
