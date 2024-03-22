@@ -1,11 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 import { User } from './entity/user.entity';
+
 import { CreateUserDto } from './dto/create.dto';
-import { UpdateUserDto } from './dto/update.dto';
+import { UpdateUserImageDto } from './dto/update-image.dto';
 import { UpdateRtDto } from './dto/update-rt.dto';
+import { UpdateUserDataDto } from './dto/update-data.dto';
+import { UpdateUserPasswordDto } from './dto/update-password.dto';
 
 @Injectable()
 export class UsersService {
@@ -25,8 +29,43 @@ export class UsersService {
     return this.userRepository.save(user);
   }
 
-  async updateUser(id: number, dto: UpdateUserDto) {
+  async updateUserImage(id: number, dto: UpdateUserImageDto) {
+    const userExist = await this.findOne(id);
+    if (!userExist) throw new BadRequestException('User does not exist.');
+
     return await this.userRepository.update(id, dto);
+  }
+
+  async updateUserData(id: number, dto: UpdateUserDataDto) {
+    const userExist = await this.findOne(id);
+    if (!userExist) throw new BadRequestException('User does not exist.');
+
+    const emailExist = await this.findOneWithEmail(dto.email);
+    if (emailExist) throw new BadRequestException('Email already in use.');
+
+    const usernameExist = await this.findOneWithUsername(dto.username);
+    if (usernameExist)
+      throw new BadRequestException('Username is already taken.');
+
+    return await this.userRepository.update(id, dto);
+  }
+
+  async updateUserPassword(id: number, dto: UpdateUserPasswordDto) {
+    const userExist = await this.findOne(id);
+    if (!userExist) throw new BadRequestException('User does not exist.');
+
+    const isMatch = await bcrypt.compare(
+      dto.currentPassword,
+      userExist.password,
+    );
+    if (!isMatch)
+      throw new BadRequestException('Current password does not match.');
+
+    const newPasswordHash = await bcrypt.hash(dto.newPassword, 8);
+
+    userExist.password = newPasswordHash;
+
+    return await this.userRepository.update(id, userExist); //?
   }
 
   async updateRt(id: number, dto: UpdateRtDto) {
@@ -39,6 +78,10 @@ export class UsersService {
 
   async findOneWithEmail(email: string) {
     return await this.userRepository.findOne({ where: { email: email } });
+  }
+
+  async findOneWithUsername(username: string) {
+    return await this.userRepository.findOne({ where: { username: username } });
   }
 
   async getUsers() {

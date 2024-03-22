@@ -11,7 +11,9 @@ import { UseGuards } from '@nestjs/common';
 
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create.dto';
-import { UpdateUserDto } from './dto/update.dto';
+import { UpdateUserImageDto } from './dto/update-image.dto';
+import { UpdateUserDataDto } from './dto/update-data.dto';
+import { UpdateUserPasswordDto } from './dto/update-password.dto';
 
 import { ATGuard } from '../common/guards/accessToken.guard';
 import { GetCurrId } from '../common/decorators/getCurrId.decorator';
@@ -30,9 +32,26 @@ export class UsersController {
 
   @UseGuards(ATGuard)
   @HttpCode(HttpStatus.OK)
-  @Patch('/update')
-  update(@GetCurrId() id: number, @Body() dto: UpdateUserDto) {
-    return this.usersService.updateUser(id, dto);
+  @Patch('/update/imageUrl')
+  updateUserImage(@GetCurrId() id: number, @Body() dto: UpdateUserImageDto) {
+    return this.usersService.updateUserImage(id, dto);
+  }
+
+  @UseGuards(ATGuard)
+  @HttpCode(HttpStatus.OK)
+  @Patch('/update/data')
+  updateUserData(@GetCurrId() id: number, @Body() dto: UpdateUserDataDto) {
+    return this.usersService.updateUserData(id, dto);
+  }
+
+  @UseGuards(ATGuard)
+  @HttpCode(HttpStatus.OK)
+  @Patch('/update/password')
+  updateUserPassword(
+    @GetCurrId() id: number,
+    @Body() dto: UpdateUserPasswordDto,
+  ) {
+    return this.usersService.updateUserPassword(id, dto);
   }
 
   @ROLES(UserRole.ADMIN)
