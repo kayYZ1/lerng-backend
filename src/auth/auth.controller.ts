@@ -29,7 +29,6 @@ export class AuthController {
   }
 
   @Post('/local/sign-in')
-  @HttpCode(HttpStatus.OK)
   async signIn(@Body() dto: SignInDto, @Res() res: Response) {
     const { accessToken, refreshToken } = await this.authService.signIn(dto);
 
@@ -45,7 +44,6 @@ export class AuthController {
 
   @UseGuards(ATGuard)
   @Post('/sign-out')
-  @HttpCode(HttpStatus.OK)
   signOut(@GetCurrId() userId: number) {
     return this.authService.signOut(userId);
   }
@@ -68,7 +66,6 @@ export class AuthController {
 
   @UseGuards(ATGuard)
   @Get('/me')
-  @HttpCode(HttpStatus.OK)
   getMe(@GetCurrId() userId: number) {
     return this.authService.getMe(userId);
   }

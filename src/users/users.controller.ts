@@ -31,21 +31,18 @@ export class UsersController {
   }
 
   @UseGuards(ATGuard)
-  @HttpCode(HttpStatus.OK)
   @Patch('/update/imageUrl')
   updateUserImage(@GetCurrId() id: number, @Body() dto: UpdateUserImageDto) {
     return this.usersService.updateUserImage(id, dto);
   }
 
   @UseGuards(ATGuard)
-  @HttpCode(HttpStatus.OK)
   @Patch('/update/data')
   updateUserData(@GetCurrId() id: number, @Body() dto: UpdateUserDataDto) {
     return this.usersService.updateUserData(id, dto);
   }
 
   @UseGuards(ATGuard)
-  @HttpCode(HttpStatus.OK)
   @Patch('/update/password')
   updateUserPassword(
     @GetCurrId() id: number,
