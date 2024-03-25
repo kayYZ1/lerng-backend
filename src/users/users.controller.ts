@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Patch,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post } from '@nestjs/common';
 import { UseGuards } from '@nestjs/common';
 
 import { UsersService } from './users.service';
@@ -51,8 +43,8 @@ export class UsersController {
     return this.usersService.updateUserPassword(id, dto);
   }
 
-  @ROLES(UserRole.ADMIN)
-  @UseGuards(ATGuard, RolesGuard)
+  //@ROLES(UserRole.ADMIN)
+  @UseGuards(ATGuard /*, RolesGuard*/)
   @Get('/all')
   getUsers() {
     return this.usersService.getUsers();

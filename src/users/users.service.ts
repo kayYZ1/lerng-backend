@@ -41,10 +41,11 @@ export class UsersService {
     if (!userExist) throw new BadRequestException('User does not exist.');
 
     const emailExist = await this.findOneWithEmail(dto.email);
-    if (emailExist) throw new BadRequestException('Email already in use.');
+    if (emailExist && emailExist.id !== id)
+      throw new BadRequestException('Email already in use');
 
     const usernameExist = await this.findOneWithUsername(dto.username);
-    if (usernameExist)
+    if (usernameExist && usernameExist.id !== id)
       throw new BadRequestException('Username is already taken.');
 
     return await this.userRepository.update(id, dto);
@@ -54,10 +55,7 @@ export class UsersService {
     const userExist = await this.findOne(id);
     if (!userExist) throw new BadRequestException('User does not exist.');
 
-    const isMatch = await bcrypt.compare(
-      dto.currentPassword,
-      userExist.password,
-    );
+    const isMatch = await bcrypt.compare(dto.password, userExist.password);
     if (!isMatch)
       throw new BadRequestException('Current password does not match.');
 
@@ -65,7 +63,7 @@ export class UsersService {
 
     userExist.password = newPasswordHash;
 
-    return await this.userRepository.update(id, userExist); //?
+    return await this.userRepository.update(id, userExist);
   }
 
   async updateRt(id: number, dto: UpdateRtDto) {

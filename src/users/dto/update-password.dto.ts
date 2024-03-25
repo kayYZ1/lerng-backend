@@ -6,7 +6,7 @@ export class UpdateUserPasswordDto {
   @MinLength(8, {
     message: 'Password is too short',
   })
-  currentPassword: string;
+  password: string;
 
   @IsNotEmpty()
   @IsString()
