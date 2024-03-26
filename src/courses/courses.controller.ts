@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 
@@ -22,5 +22,11 @@ export class CoursesController {
   @UseGuards(ATGuard)
   getCourses() {
     return this.coursesService.getCourses();
+  }
+
+  @Get('/:id')
+  @UseGuards(ATGuard)
+  getCourseById(@Param('id') id: string) {
+    return this.coursesService.getCourse(+id);
   }
 }
