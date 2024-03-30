@@ -13,7 +13,7 @@ export class ContentsService {
     private moduleService: ModulesService,
   ) {}
 
-  async addNewContent(dto: NewContentDto, moduleId: number) {
+  async addNewContent(dto: NewContentDto, moduleId: string) {
     const content = new ModuleContent();
 
     const moduleExist = await this.moduleService.findModuleById(moduleId);
@@ -31,7 +31,7 @@ export class ContentsService {
     return this.contentRepository.save(content);
   }
 
-  async getModuleContents(moduleId: number) {
+  async getModuleContents(moduleId: string) {
     return await this.contentRepository.find({
       where: { module: { id: moduleId } },
     });

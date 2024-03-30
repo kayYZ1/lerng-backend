@@ -44,13 +44,13 @@ export class AuthController {
 
   @UseGuards(ATGuard)
   @Post('/sign-out')
-  signOut(@GetCurrId() userId: number) {
+  signOut(@GetCurrId() userId: string) {
     return this.authService.signOut(userId);
   }
 
   @UseGuards(RTGuard)
   @Get('/refresh')
-  async refreshTokens(@GetCurrId() userId: number, @Res() res: Response) {
+  async refreshTokens(@GetCurrId() userId: string, @Res() res: Response) {
     const { accessToken, refreshToken } =
       await this.authService.refreshTokens(userId);
 
@@ -66,7 +66,7 @@ export class AuthController {
 
   @UseGuards(ATGuard)
   @Get('/me')
-  getMe(@GetCurrId() userId: number) {
+  getMe(@GetCurrId() userId: string) {
     return this.authService.getMe(userId);
   }
 }

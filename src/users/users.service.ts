@@ -29,14 +29,14 @@ export class UsersService {
     return this.userRepository.save(user);
   }
 
-  async updateUserImage(id: number, dto: UpdateUserImageDto) {
+  async updateUserImage(id: string, dto: UpdateUserImageDto) {
     const userExist = await this.findOne(id);
     if (!userExist) throw new BadRequestException('User does not exist.');
 
     return await this.userRepository.update(id, dto);
   }
 
-  async updateUserData(id: number, dto: UpdateUserDataDto) {
+  async updateUserData(id: string, dto: UpdateUserDataDto) {
     const userExist = await this.findOne(id);
     if (!userExist) throw new BadRequestException('User does not exist.');
 
@@ -51,7 +51,7 @@ export class UsersService {
     return await this.userRepository.update(id, dto);
   }
 
-  async updateUserPassword(id: number, dto: UpdateUserPasswordDto) {
+  async updateUserPassword(id: string, dto: UpdateUserPasswordDto) {
     const userExist = await this.findOne(id);
     if (!userExist) throw new BadRequestException('User does not exist.');
 
@@ -66,11 +66,11 @@ export class UsersService {
     return await this.userRepository.update(id, userExist);
   }
 
-  async updateRt(id: number, dto: UpdateRtDto) {
+  async updateRt(id: string, dto: UpdateRtDto) {
     return await this.userRepository.update(id, dto);
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     return await this.userRepository.findOne({ where: { id: id } });
   }
 

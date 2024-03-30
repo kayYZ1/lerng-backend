@@ -13,7 +13,7 @@ export class ModulesService {
     private courseService: CoursesService,
   ) {}
 
-  async createModule(dto: CreateModuleDto, courseId: number) {
+  async createModule(dto: CreateModuleDto, courseId: string) {
     const module: LearningModule = new LearningModule();
 
     const courseExist = await this.courseService.findCourseById(courseId);
@@ -21,18 +21,19 @@ export class ModulesService {
     if (!courseExist) throw new BadRequestException('Course does not exist.');
 
     module.title = dto.title;
+    module.description = dto.description;
     module.course = courseExist;
 
     return this.courseModuleRepository.save(module);
   }
 
-  async getCourseModules(courseId: number) {
+  async getCourseModules(courseId: string) {
     return await this.courseModuleRepository.find({
       where: { course: { id: courseId } },
     });
   }
 
-  async findModuleById(moduleId: number) {
+  async findModuleById(moduleId: string) {
     return await this.courseModuleRepository.findOne({
       where: { id: moduleId },
     });

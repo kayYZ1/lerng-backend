@@ -15,16 +15,17 @@ export class CoursesService {
     const course: Course = new Course();
 
     course.title = dto.title;
+    course.description = dto.description;
     course.imageUrl = dto.imageUrl;
 
     return this.courseRepository.save(course);
   }
 
-  async findCourseById(courseId: number) {
+  async findCourseById(courseId: string) {
     return await this.courseRepository.findOne({ where: { id: courseId } });
   }
 
-  async getCourse(id: number) {
+  async getCourse(id: string) {
     return await this.courseRepository.findOneBy({ id });
   }
 

@@ -57,13 +57,13 @@ export class AuthService {
     return tokens;
   }
 
-  async signOut(userId: number) {
+  async signOut(userId: string) {
     return await this.userService.updateRt(userId, {
       refreshToken: null,
     });
   }
 
-  async refreshTokens(userId: number) {
+  async refreshTokens(userId: string) {
     const user = await this.userService.findOne(userId);
 
     if (!user || !user.refreshToken)
@@ -75,13 +75,13 @@ export class AuthService {
     return tokens;
   }
 
-  async updateRefreshToken(userId: number, refreshToken: string) {
+  async updateRefreshToken(userId: string, refreshToken: string) {
     await this.userService.updateRt(userId, {
       refreshToken,
     });
   }
 
-  async getTokens(userId: number, email: string, role: UserRole) {
+  async getTokens(userId: string, email: string, role: UserRole) {
     const payload: JwtPayload = {
       sub: userId,
       email,
@@ -105,7 +105,7 @@ export class AuthService {
     };
   }
 
-  async getMe(userId: number) {
+  async getMe(userId: string) {
     const user = await this.userService.findOne(userId);
     const userModified = {
       id: userId,

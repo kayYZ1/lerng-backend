@@ -27,6 +27,6 @@ export class CoursesController {
   @Get('/:id')
   @UseGuards(ATGuard)
   getCourseById(@Param('id') id: string) {
-    return this.coursesService.getCourse(+id);
+    return this.coursesService.getCourse(id);
   }
 }

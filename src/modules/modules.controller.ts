@@ -15,11 +15,11 @@ export class ModulesController {
   @UseGuards(ATGuard, RolesGuard)
   @ROLES(UserRole.ADMIN)
   createModule(@Body() dto: CreateModuleDto, @Param('id') id: string) {
-    return this.modulesService.createModule(dto, +id);
+    return this.modulesService.createModule(dto, id);
   }
 
   @Get('/:id')
   getModules(@Param('id') id: string) {
-    return this.modulesService.getCourseModules(+id);
+    return this.modulesService.getCourseModules(id);
   }
 }

@@ -11,11 +11,14 @@ import { ModuleContent } from '../../contents/entities/content.entity';
 
 @Entity()
 export class LearningModule {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', length: 40 })
   title: string;
+
+  @Column({ type: "varchar", length: 80 })
+  description: string;
 
   @ManyToOne(() => Course, (course) => course.modules)
   course: Course;

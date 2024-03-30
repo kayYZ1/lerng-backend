@@ -7,5 +7,9 @@ export class CreateCourseDto {
 
   @IsNotEmpty()
   @IsString()
+  description: string;
+
+  @IsNotEmpty()
+  @IsString()
   imageUrl: string;
 }

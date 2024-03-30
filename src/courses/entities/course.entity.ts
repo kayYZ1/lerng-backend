@@ -10,11 +10,14 @@ import { LearningModule } from '../../modules/entities/module.entity';
 
 @Entity()
 export class Course {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', length: 40 })
   title: string;
+
+  @Column({ type: "varchar", length: 80 })
+  description: string;
 
   @Column({ type: 'varchar' })
   imageUrl: string;

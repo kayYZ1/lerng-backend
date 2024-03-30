@@ -24,20 +24,20 @@ export class UsersController {
 
   @UseGuards(ATGuard)
   @Patch('/update/imageUrl')
-  updateUserImage(@GetCurrId() id: number, @Body() dto: UpdateUserImageDto) {
+  updateUserImage(@GetCurrId() id: string, @Body() dto: UpdateUserImageDto) {
     return this.usersService.updateUserImage(id, dto);
   }
 
   @UseGuards(ATGuard)
   @Patch('/update/data')
-  updateUserData(@GetCurrId() id: number, @Body() dto: UpdateUserDataDto) {
+  updateUserData(@GetCurrId() id: string, @Body() dto: UpdateUserDataDto) {
     return this.usersService.updateUserData(id, dto);
   }
 
   @UseGuards(ATGuard)
   @Patch('/update/password')
   updateUserPassword(
-    @GetCurrId() id: number,
+    @GetCurrId() id: string,
     @Body() dto: UpdateUserPasswordDto,
   ) {
     return this.usersService.updateUserPassword(id, dto);

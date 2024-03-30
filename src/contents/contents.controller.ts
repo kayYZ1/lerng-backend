@@ -14,12 +14,12 @@ export class ContentsController {
   @UseGuards(ATGuard, RolesGuard)
   @ROLES(UserRole.ADMIN)
   newContent(@Body() dto: NewContentDto, @Param('id') id: string) {
-    return this.contentsService.addNewContent(dto, +id);
+    return this.contentsService.addNewContent(dto, id);
   }
 
   @Get('/:id')
   @UseGuards(ATGuard)
   getContents(@Param('id') id: string) {
-    return this.contentsService.getModuleContents(+id);
+    return this.contentsService.getModuleContents(id);
   }
 }
