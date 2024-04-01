@@ -38,4 +38,10 @@ export class CoursesService {
   async getCourses() {
     return await this.courseRepository.find();
   }
+
+  async getInstructorCourses(userId: string) {
+    return await this.courseRepository.find({
+      where: { user: { id: userId } },
+    });
+  }
 }
