@@ -12,7 +12,7 @@ export class ContentsController {
 
   @Post('/create/:id')
   @UseGuards(ATGuard, RolesGuard)
-  @ROLES(UserRole.ADMIN)
+  @ROLES(UserRole.INSTRUCTOR)
   newContent(@Body() dto: NewContentDto, @Param('id') id: string) {
     return this.contentsService.addNewContent(dto, id);
   }

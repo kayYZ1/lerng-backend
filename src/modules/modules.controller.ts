@@ -13,7 +13,7 @@ export class ModulesController {
 
   @Post('/create/:id')
   @UseGuards(ATGuard, RolesGuard)
-  @ROLES(UserRole.ADMIN)
+  @ROLES(UserRole.INSTRUCTOR)
   createModule(@Body() dto: CreateModuleDto, @Param('id') id: string) {
     return this.modulesService.createModule(dto, id);
   }

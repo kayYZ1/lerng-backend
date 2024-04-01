@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { UserRole } from '../enums/user.enum';
+import { Course } from '../../courses/entities/course.entity';
 
 @Entity()
 export class User {
@@ -24,4 +25,7 @@ export class User {
 
   @Column({ type: 'varchar', nullable: true })
   refreshToken: string | null;
+
+  @OneToMany(() => Course, (course) => course.user)
+  courses: Course[]
 }

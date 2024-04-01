@@ -3,10 +3,12 @@ import {
   CreateDateColumn,
   Entity,
   OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
 import { LearningModule } from '../../modules/entities/module.entity';
+import { User } from '../../users/entity/user.entity';
 
 @Entity()
 export class Course {
@@ -16,7 +18,7 @@ export class Course {
   @Column({ type: 'varchar', length: 40 })
   title: string;
 
-  @Column({ type: "varchar", length: 80 })
+  @Column({ type: "varchar", length: 200 })
   description: string;
 
   @Column({ type: 'varchar' })
@@ -31,4 +33,7 @@ export class Course {
 
   @OneToMany(() => LearningModule, (module) => module.course)
   modules: LearningModule[];
+
+  @ManyToOne(() => User, (user) => user.courses)
+  user: User; 
 }
