@@ -33,6 +33,10 @@ export class ModulesService {
     });
   }
 
+  async getModule(id: string) {
+    return await this.courseModuleRepository.findOneBy({ id });
+  }
+
   async findModuleById(moduleId: string) {
     return await this.courseModuleRepository.findOne({
       where: { id: moduleId },

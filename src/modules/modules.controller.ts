@@ -18,7 +18,14 @@ export class ModulesController {
     return this.modulesService.createModule(dto, id);
   }
 
+  @Get('/module/:id')
+  @UseGuards(ATGuard)
+  getModule(@Param('id') id: string) {
+    return this.modulesService.getModule(id);
+  }
+
   @Get('/:id')
+  @UseGuards(ATGuard)
   getModules(@Param('id') id: string) {
     return this.modulesService.getCourseModules(id);
   }
