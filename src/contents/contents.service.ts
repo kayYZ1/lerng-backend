@@ -1,22 +1,22 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ModuleContent } from './entities/content.entity';
+import { Content } from './entities/content.entity';
 import { Repository } from 'typeorm';
 import { NewContentDto } from './dto/new-content.dto';
-import { ModulesService } from '../modules/modules.service';
+import { TopicsService } from '../topics/topics.service';
 
 @Injectable()
 export class ContentsService {
   constructor(
-    @InjectRepository(ModuleContent)
-    private contentRepository: Repository<ModuleContent>,
-    private moduleService: ModulesService,
+    @InjectRepository(Content)
+    private contentRepository: Repository<Content>,
+    private topicsService: TopicsService,
   ) {}
 
-  async addNewContent(dto: NewContentDto, moduleId: string) {
-    const content = new ModuleContent();
+  async addNewContent(dto: NewContentDto, topicId: string) {
+    const content = new Content();
 
-    const moduleExist = await this.moduleService.findModuleById(moduleId);
+    const moduleExist = await this.topicsService.findTopicById(topicId);
 
     if (!moduleExist) throw new BadRequestException('Module does not exist');
 
@@ -26,14 +26,14 @@ export class ContentsService {
     content.textSecond = dto.textSecond;
     content.imageUrl = dto.imageUrl;
     content.videoUrl = dto.videoUrl;
-    content.module = moduleExist;
+    content.topic = moduleExist;
 
     return this.contentRepository.save(content);
   }
 
-  async getModuleContents(moduleId: string) {
+  async getContentsFromTopic(topicId: string) {
     return await this.contentRepository.find({
-      where: { module: { id: moduleId } },
+      where: { topic: { id: topicId } },
     });
   }
 }

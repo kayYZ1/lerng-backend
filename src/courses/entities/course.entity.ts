@@ -7,18 +7,18 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { LearningModule } from '../../modules/entities/module.entity';
+import { Topic } from '../../topics/entities/topics.entity';
 import { User } from '../../users/entity/user.entity';
 
 @Entity()
 export class Course {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ type: 'varchar', length: 40 })
   title: string;
 
-  @Column({ type: "varchar", length: 200 })
+  @Column({ type: 'varchar', length: 200 })
   description: string;
 
   @Column({ type: 'varchar' })
@@ -31,9 +31,9 @@ export class Course {
   })
   created: Date;
 
-  @OneToMany(() => LearningModule, (module) => module.course)
-  modules: LearningModule[];
+  @OneToMany(() => Topic, (topic) => topic.course)
+  topics: Topic[];
 
   @ManyToOne(() => User, (user) => user.courses)
-  user: User; 
+  user: User;
 }

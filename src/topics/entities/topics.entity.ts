@@ -7,10 +7,10 @@ import {
 } from 'typeorm';
 
 import { Course } from '../../courses/entities/course.entity';
-import { ModuleContent } from '../../contents/entities/content.entity';
+import { Content } from '../../contents/entities/content.entity';
 
 @Entity()
-export class LearningModule {
+export class Topic {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -20,9 +20,9 @@ export class LearningModule {
   @Column({ type: "varchar", length: 80 })
   description: string;
 
-  @ManyToOne(() => Course, (course) => course.modules)
+  @ManyToOne(() => Course, (course) => course.topics)
   course: Course;
 
-  @OneToMany(() => ModuleContent, (content) => content.module)
-  contents: ModuleContent[];
+  @OneToMany(() => Content, (content) => content.topic)
+  contents: Content[];
 }

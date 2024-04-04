@@ -32,6 +32,12 @@ export class CoursesController {
     return this.coursesService.getInstructorCourses(userId);
   }
 
+  @Get('/course/instructor/:id')
+  @UseGuards(ATGuard)
+  getInstructorDataFromCourse(@Param('id') id: string) {
+    return this.coursesService.getInstructorDataFromCourse(id);
+  }
+
   @Get('/:id')
   @UseGuards(ATGuard)
   getCourseById(@Param('id') id: string) {

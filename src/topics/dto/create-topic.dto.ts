@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class CreateModuleDto {
+export class CreateTopicDto {
   @IsNotEmpty()
   @IsString()
   title: string;

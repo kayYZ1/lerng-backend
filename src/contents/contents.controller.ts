@@ -19,7 +19,7 @@ export class ContentsController {
 
   @Get('/:id')
   @UseGuards(ATGuard)
-  getContents(@Param('id') id: string) {
-    return this.contentsService.getModuleContents(id);
+  getContentsFromTopic(@Param('id') id: string) {
+    return this.contentsService.getContentsFromTopic(id);
   }
 }

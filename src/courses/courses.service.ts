@@ -28,15 +28,35 @@ export class CoursesService {
   }
 
   async findCourseById(courseId: string) {
-    return await this.courseRepository.findOne({ where: { id: courseId } });
+    return await this.courseRepository.findOne({
+      where: { id: courseId },
+      relations: ['user']
+    });
   }
-
   async getCourse(id: string) {
     return await this.courseRepository.findOneBy({ id });
   }
 
   async getCourses() {
     return await this.courseRepository.find();
+  }
+
+  async getInstructorDataFromCourse(courseId: string) {
+    const existingCourse = await this.findCourseById(courseId);
+    if (!existingCourse) throw new BadRequestException('Course does not exist');
+
+    const courseInstructor = await this.userService.findOne(
+      existingCourse.user.id,
+    );
+    const instructorModified = {
+      id: courseInstructor.id,
+      email: courseInstructor.email,
+      username: courseInstructor.username,
+      avatar: courseInstructor.imageUrl,
+      joined: courseInstructor.created,
+    };
+
+    return instructorModified;
   }
 
   async getInstructorCourses(userId: string) {

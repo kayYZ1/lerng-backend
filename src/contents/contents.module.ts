@@ -2,11 +2,11 @@ import { Module } from '@nestjs/common';
 import { ContentsService } from './contents.service';
 import { ContentsController } from './contents.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ModuleContent } from './entities/content.entity';
-import { ModulesModule } from '../modules/modules.module';
+import { Content } from './entities/content.entity';
+import { TopicsModule } from '../topics/topics.module.';
 
 @Module({
-  imports: [ModulesModule, TypeOrmModule.forFeature([ModuleContent])],
+  imports: [TopicsModule, TypeOrmModule.forFeature([Content])],
   controllers: [ContentsController],
   providers: [ContentsService],
 })

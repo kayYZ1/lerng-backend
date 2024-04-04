@@ -1,8 +1,8 @@
-import { LearningModule } from '../../modules/entities/module.entity';
+import { Topic } from '../../topics/entities/topics.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class ModuleContent {
+export class Content {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -24,6 +24,6 @@ export class ModuleContent {
   @Column({ type: 'varchar', nullable: true })
   videoUrl: string;
 
-  @ManyToOne(() => LearningModule, (module) => module.contents)
-  module: LearningModule;
+  @ManyToOne(() => Topic, (topic) => topic.contents)
+  topic: Topic;
 }
