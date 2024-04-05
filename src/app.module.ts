@@ -11,6 +11,8 @@ import { CoursesModule } from './courses/courses.module';
 import { Topic } from './topics/entities/topics.entity';
 import { ContentsModule } from './contents/contents.module';
 import { Content } from './contents/entities/content.entity';
+import { QuestionsModule } from './questions/questions.module';
+import { Question } from './questions/entities/question.entity';
 
 @Module({
   imports: [
@@ -21,7 +23,7 @@ import { Content } from './contents/entities/content.entity';
       username: 'kayz',
       password: '1234',
       database: 'LMSLinux',
-      entities: [User, Course, Topic, Content],
+      entities: [User, Course, Topic, Content, Question],
       synchronize: true,
     }),
     UsersModule,
@@ -29,6 +31,7 @@ import { Content } from './contents/entities/content.entity';
     CoursesModule,
     TopicsModule,
     ContentsModule,
+    QuestionsModule,
   ],
 })
 export class AppModule {}

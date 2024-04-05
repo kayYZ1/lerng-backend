@@ -8,6 +8,7 @@ import {
 
 import { Course } from '../../courses/entities/course.entity';
 import { Content } from '../../contents/entities/content.entity';
+import { Question } from '../../questions/entities/question.entity';
 
 @Entity()
 export class Topic {
@@ -25,4 +26,7 @@ export class Topic {
 
   @OneToMany(() => Content, (content) => content.topic)
   contents: Content[];
+
+  @OneToMany(() => Question, (question) => question.topic)
+  questions: Question[];
 }
