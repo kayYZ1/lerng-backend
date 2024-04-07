@@ -6,7 +6,7 @@ import { CreateTopicDto } from './dto/create-topic.dto';
 import { CoursesService } from 'src/courses/courses.service';
 
 @Injectable()
-export class TopicsService{
+export class TopicsService {
   constructor(
     @InjectRepository(Topic)
     private topicsRepository: Repository<Topic>,

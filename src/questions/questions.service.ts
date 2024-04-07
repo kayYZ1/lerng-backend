@@ -1,10 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DriverOptionNotSetError, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Question } from './entities/question.entity';
 import { AddQuestionDto } from './dto/add-question.dto';
 import { TopicsService } from '../topics/topics.service';
-import { SolveQuestionDto } from './dto/solve-question.dto';
 
 @Injectable()
 export class QuestionsService {
@@ -39,17 +38,5 @@ export class QuestionsService {
     });
 
     return questions;
-  }
-
-  async questionSolve(dto: SolveQuestionDto, questionId: string) {
-    const questionExist = await this.questionsRepository.findOne({
-      where: { id: questionId },
-    });
-
-    if (!questionExist)
-      throw new BadRequestException('Question does not exist.');
-
-    if (questionExist.answer !== dto.questionAnswer) return 'Wrong answer!';
-    return 'Correct answer!';
   }
 }

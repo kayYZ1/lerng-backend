@@ -3,7 +3,6 @@ import { QuestionsService } from './questions.service';
 import { ATGuard } from 'src/common/guards/accessToken.guard';
 import { RolesGuard } from 'src/common/guards/roles.guard';
 import { AddQuestionDto } from './dto/add-question.dto';
-import { SolveQuestionDto } from './dto/solve-question.dto';
 
 @Controller('questions')
 export class QuestionsController {
@@ -19,11 +18,5 @@ export class QuestionsController {
   @UseGuards(ATGuard)
   getQuestionsFromTopic(@Param('id') id: string) {
     return this.questionsService.getQuestionsFromTopic(id);
-  }
-
-  @Post('/solve/:id')
-  @UseGuards(ATGuard)
-  solveQuestion(@Body() dto: SolveQuestionDto, @Param('id') id: string) {
-    return this.questionsService.questionSolve(dto, id);
   }
 }

@@ -8,6 +8,7 @@ import {
 
 import { UserRole } from '../enums/user.enum';
 import { Course } from '../../courses/entities/course.entity';
+import { Progress } from '../../progress/entities/progress.entity';
 
 @Entity()
 export class User {
@@ -41,4 +42,7 @@ export class User {
 
   @OneToMany(() => Course, (course) => course.user)
   courses: Course[];
+
+  @OneToMany(() => Progress, (progress) => progress.user)
+  topicProgress: Progress[]
 }

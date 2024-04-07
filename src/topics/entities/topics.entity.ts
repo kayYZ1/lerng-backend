@@ -9,16 +9,17 @@ import {
 import { Course } from '../../courses/entities/course.entity';
 import { Content } from '../../contents/entities/content.entity';
 import { Question } from '../../questions/entities/question.entity';
+import { Progress } from '../../progress/entities/progress.entity';
 
 @Entity()
 export class Topic {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ type: 'varchar', length: 40 })
   title: string;
 
-  @Column({ type: "varchar", length: 80 })
+  @Column({ type: 'varchar', length: 80 })
   description: string;
 
   @ManyToOne(() => Course, (course) => course.topics)
@@ -29,4 +30,7 @@ export class Topic {
 
   @OneToMany(() => Question, (question) => question.topic)
   questions: Question[];
+
+  @OneToMany(() => Progress, (progress) => progress.topic)
+  topicProgress: Progress[]
 }
