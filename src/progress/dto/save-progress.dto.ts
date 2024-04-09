@@ -1,7 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { GetProgressDto } from './get-progress.dto';
 
-export class SaveProgressDto extends PartialType(GetProgressDto) {
+export class SaveProgressDto {
   quizScore: number;
 
   progressScore: number;

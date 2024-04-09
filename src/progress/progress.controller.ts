@@ -10,8 +10,8 @@ export class ProgressController {
 
   @Patch('/save/:id')
   @UseGuards(ATGuard)
-  saveProgress(@Body() dto: SaveProgressDto, @Param('id') topicId: string) {
-    return this.progressService.saveProgress(dto, topicId);
+  saveProgress(@GetCurrId() userId: string, @Body() dto: SaveProgressDto, @Param('id') topicId: string) {
+    return this.progressService.saveProgress(userId, dto, topicId);
   }
 
   @Get('/get/:id')

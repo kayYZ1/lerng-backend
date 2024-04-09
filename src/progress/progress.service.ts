@@ -6,7 +6,6 @@ import { Repository } from 'typeorm';
 import { SaveProgressDto } from './dto/save-progress.dto';
 import { TopicsService } from '../topics/topics.service';
 import { UsersService } from '../users/users.service';
-import { GetProgressDto } from './dto/get-progress.dto';
 
 @Injectable()
 export class ProgressService {
@@ -17,9 +16,9 @@ export class ProgressService {
     private usersService: UsersService,
   ) {}
 
-  async saveProgress(dto: SaveProgressDto, topicId: string) {
+  async saveProgress(userId: string, dto: SaveProgressDto, topicId: string) {
     const topicExist = await this.topicsService.findTopicById(topicId);
-    const userExist = await this.usersService.findOne(dto.userId);
+    const userExist = await this.usersService.findOne(userId);
 
     if (!topicExist) throw new BadRequestException('Topic does not exist');
     if (!userExist) throw new BadRequestException('User does not exist');
