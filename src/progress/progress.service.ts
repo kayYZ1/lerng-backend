@@ -7,7 +7,6 @@ import { SaveProgressDto } from './dto/save-progress.dto';
 import { TopicsService } from '../topics/topics.service';
 import { UsersService } from '../users/users.service';
 import { GetProgressDto } from './dto/get-progress.dto';
-import { CoursesService } from '../courses/courses.service';
 
 @Injectable()
 export class ProgressService {
@@ -36,7 +35,6 @@ export class ProgressService {
       this.progressRepository.update(progressExist.id, progressExist);
     } else {
       const progress = new Progress();
-
       progress.topic = topicExist;
       progress.user = userExist;
 
@@ -54,16 +52,25 @@ export class ProgressService {
           where: { user: { id: dto.userId }, topic: { id: topic.id } },
         });
 
-        return {
-          id: topic.id,
-          title: topic.title,
-          progress: progressExist ? progressExist.progressScore : 0,
-          quizScore: progressExist ? progressExist.quizScore : 0,
-        };
+        if (progressExist) {
+          return {
+            id: topic.id,
+            title: topic.title,
+            progress: progressExist.progressScore,
+            quizScore: progressExist.quizScore,
+          };
+        } else return null;
       }),
     );
 
-    console.log(progressArray);
-    return progressArray;
+    const filteredProgressArray = progressArray.filter(
+      (progress) => progress !== null,
+    );
+
+    if (filteredProgressArray.length === 0) {
+      return [];
+    }
+
+    return filteredProgressArray;
   }
 }
