@@ -42,14 +42,14 @@ export class ProgressService {
     }
   }
 
-  async getUserProgress(dto: GetProgressDto, courseId: string) {
+  async getUserProgress(userId: string, courseId: string) {
     const topicsFromCourse =
       await this.topicsService.getTopicsFromCourse(courseId);
 
     const progressArray = await Promise.all(
       topicsFromCourse.map(async (topic) => {
         const progressExist = await this.progressRepository.findOne({
-          where: { user: { id: dto.userId }, topic: { id: topic.id } },
+          where: { user: { id: userId }, topic: { id: topic.id } },
         });
 
         if (progressExist) {

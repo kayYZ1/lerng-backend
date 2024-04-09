@@ -2,7 +2,7 @@ import { Body, Controller, Param, Patch, Get, UseGuards } from '@nestjs/common';
 import { ProgressService } from './progress.service';
 import { ATGuard } from 'src/common/guards/accessToken.guard';
 import { SaveProgressDto } from './dto/save-progress.dto';
-import { GetProgressDto } from './dto/get-progress.dto';
+import { GetCurrId } from 'src/common/decorators/getCurrId.decorator';
 
 @Controller('progress')
 export class ProgressController {
@@ -16,7 +16,7 @@ export class ProgressController {
 
   @Get('/get/:id')
   @UseGuards(ATGuard)
-  getUserProgress(@Body() dto: GetProgressDto, @Param('id') courseId: string) {
-    return this.progressService.getUserProgress(dto, courseId);
+  getUserProgress(@GetCurrId() userId: string, @Param('id') courseId: string) {
+    return this.progressService.getUserProgress(userId, courseId);
   }
 }
