@@ -6,6 +6,8 @@ import { Repository } from 'typeorm';
 import { SaveProgressDto } from './dto/save-progress.dto';
 import { TopicsService } from '../topics/topics.service';
 import { UsersService } from '../users/users.service';
+import { GetProgressDto } from './dto/get-progress.dto';
+import { CoursesService } from '../courses/courses.service';
 
 @Injectable()
 export class ProgressService {
@@ -37,15 +39,31 @@ export class ProgressService {
 
       progress.topic = topicExist;
       progress.user = userExist;
-      progress.progressScore = dto.progressScore;
-      progress.quizScore = dto.quizScore;
 
       this.progressRepository.save(progress);
     }
   }
 
-  async getUserProgress(topicId: string) {
-    
-  }
+  async getUserProgress(dto: GetProgressDto, courseId: string) {
+    const topicsFromCourse =
+      await this.topicsService.getTopicsFromCourse(courseId);
 
+    const progressArray = await Promise.all(
+      topicsFromCourse.map(async (topic) => {
+        const progressExist = await this.progressRepository.findOne({
+          where: { user: { id: dto.userId }, topic: { id: topic.id } },
+        });
+
+        return {
+          id: topic.id,
+          title: topic.title,
+          progress: progressExist ? progressExist.progressScore : 0,
+          quizScore: progressExist ? progressExist.quizScore : 0,
+        };
+      }),
+    );
+
+    console.log(progressArray);
+    return progressArray;
+  }
 }

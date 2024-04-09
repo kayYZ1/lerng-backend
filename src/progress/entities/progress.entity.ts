@@ -9,10 +9,10 @@ export class Progress {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'numeric' })
+  @Column({ type: 'numeric', default: 0 })
   quizScore: number;
 
-  @Column({ type: 'numeric' })
+  @Column({ type: 'numeric', default: 0 })
   progressScore: number;
 
   @ManyToOne(() => User, (user) => user.topicProgress)

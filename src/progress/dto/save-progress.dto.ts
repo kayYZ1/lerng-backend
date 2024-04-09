@@ -1,10 +1,7 @@
-import { IsNotEmpty, IsNumber, IsString, IsUUID } from "class-validator";
+import { PartialType } from '@nestjs/mapped-types';
+import { GetProgressDto } from './get-progress.dto';
 
-export class SaveProgressDto {
-  @IsNotEmpty()
-  @IsUUID()
-  userId: string;
-
+export class SaveProgressDto extends PartialType(GetProgressDto) {
   quizScore: number;
 
   progressScore: number;
