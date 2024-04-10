@@ -16,6 +16,12 @@ export class ProgressService {
     private usersService: UsersService,
   ) {}
 
+  async getProgress(userId: string, topicId: string) {
+    return await this.progressRepository.findOne({
+      where: { user: { id: userId }, topic: { id: topicId } },
+    });
+  }
+
   async saveProgress(userId: string, dto: SaveProgressDto, topicId: string) {
     const topicExist = await this.topicsService.findTopicById(topicId);
     const userExist = await this.usersService.findOne(userId);
@@ -23,9 +29,7 @@ export class ProgressService {
     if (!topicExist) throw new BadRequestException('Topic does not exist');
     if (!userExist) throw new BadRequestException('User does not exist');
 
-    const progressExist = await this.progressRepository.findOne({
-      where: { user: { id: userExist.id }, topic: { id: topicExist.id } },
-    });
+    const progressExist = await this.getProgress(userId, topicId);
 
     if (progressExist) {
       progressExist.quizScore = dto.quizScore;
@@ -47,9 +51,7 @@ export class ProgressService {
 
     const progressArray = await Promise.all(
       topicsFromCourse.map(async (topic) => {
-        const progressExist = await this.progressRepository.findOne({
-          where: { user: { id: userId }, topic: { id: topic.id } },
-        });
+        const progressExist = await this.getProgress(userId, topic.id);
 
         if (progressExist) {
           return {
@@ -62,14 +64,14 @@ export class ProgressService {
       }),
     );
 
-    const filteredProgressArray = progressArray.filter(
+    const progressArrayFiltered = progressArray.filter(
       (progress) => progress !== null,
     );
 
-    if (filteredProgressArray.length === 0) {
+    if (progressArrayFiltered.length === 0) {
       return [];
     }
 
-    return filteredProgressArray;
+    return progressArrayFiltered;
   }
 }
