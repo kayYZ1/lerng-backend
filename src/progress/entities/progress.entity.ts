@@ -1,8 +1,7 @@
-import { Column, Entity, ManyToOne } from 'typeorm';
-import { PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { User } from '../../users/entity/user.entity';
 import { Topic } from '../../topics/entities/topics.entity';
+import { User } from '../../users/entity/user.entity';
 
 @Entity()
 export class Progress {

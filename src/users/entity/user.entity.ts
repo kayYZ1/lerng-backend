@@ -6,9 +6,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { UserRole } from '../enums/user.enum';
 import { Course } from '../../courses/entities/course.entity';
 import { Progress } from '../../progress/entities/progress.entity';
+import { UserRole } from '../enums/user.enum';
 
 @Entity()
 export class User {
@@ -44,5 +44,5 @@ export class User {
   courses: Course[];
 
   @OneToMany(() => Progress, (progress) => progress.user)
-  topicProgress: Progress[]
+  topicProgress: Progress[];
 }

@@ -1,11 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { Progress } from './entities/progress.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Progress } from './entities/progress.entity';
 
-import { SaveProgressDto } from './dto/save-progress.dto';
 import { TopicsService } from '../topics/topics.service';
 import { UsersService } from '../users/users.service';
+import { SaveProgressDto } from './dto/save-progress.dto';
 
 @Injectable()
 export class ProgressService {

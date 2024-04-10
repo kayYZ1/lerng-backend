@@ -8,7 +8,7 @@ export class AddQuestionDto {
 
   @IsEnum(QuestionType)
   type: QuestionType;
-  
+
   @IsNotEmpty()
   answer: string | boolean;
 }

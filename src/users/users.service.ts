@@ -1,15 +1,15 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Repository } from 'typeorm';
 
 import { User } from './entity/user.entity';
 
 import { CreateUserDto } from './dto/create.dto';
-import { UpdateUserImageDto } from './dto/update-image.dto';
-import { UpdateRtDto } from './dto/update-rt.dto';
 import { UpdateUserDataDto } from './dto/update-data.dto';
+import { UpdateUserImageDto } from './dto/update-image.dto';
 import { UpdateUserPasswordDto } from './dto/update-password.dto';
+import { UpdateRtDto } from './dto/update-rt.dto';
 
 @Injectable()
 export class UsersService {

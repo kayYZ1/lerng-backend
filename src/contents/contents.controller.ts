@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
-import { ContentsService } from './contents.service';
+import { ROLES } from '../common/decorators/roles.decorator';
 import { ATGuard } from '../common/guards/accessToken.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
-import { ROLES } from '../common/decorators/roles.decorator';
 import { UserRole } from '../users/enums/user.enum';
+import { ContentsService } from './contents.service';
 import { NewContentDto } from './dto/new-content.dto';
 
 @Controller('contents')

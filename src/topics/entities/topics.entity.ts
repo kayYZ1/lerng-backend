@@ -6,10 +6,10 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { Course } from '../../courses/entities/course.entity';
 import { Content } from '../../contents/entities/content.entity';
-import { Question } from '../../questions/entities/question.entity';
+import { Course } from '../../courses/entities/course.entity';
 import { Progress } from '../../progress/entities/progress.entity';
+import { Question } from '../../questions/entities/question.entity';
 
 @Entity()
 export class Topic {
@@ -32,5 +32,5 @@ export class Topic {
   questions: Question[];
 
   @OneToMany(() => Progress, (progress) => progress.topic)
-  topicProgress: Progress[]
+  topicProgress: Progress[];
 }

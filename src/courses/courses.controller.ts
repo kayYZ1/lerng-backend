@@ -2,10 +2,10 @@ import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 
+import { GetCurrId } from '../common/decorators/getCurrId.decorator';
+import { ROLES } from '../common/decorators/roles.decorator';
 import { ATGuard } from '../common/guards/accessToken.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
-import { ROLES } from '../common/decorators/roles.decorator';
-import { GetCurrId } from '../common/decorators/getCurrId.decorator';
 import { UserRole } from '../users/enums/user.enum';
 
 @Controller('courses')

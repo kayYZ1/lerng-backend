@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
-import { QuestionsService } from './questions.service';
-import { ATGuard } from 'src/common/guards/accessToken.guard';
-import { RolesGuard } from 'src/common/guards/roles.guard';
+import { ATGuard } from '../common/guards/accessToken.guard';
+import { RolesGuard } from '../common/guards/roles.guard';
 import { AddQuestionDto } from './dto/add-question.dto';
+import { QuestionsService } from './questions.service';
 
 @Controller('questions')
 export class QuestionsController {

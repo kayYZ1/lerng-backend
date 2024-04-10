@@ -1,9 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Content } from './entities/content.entity';
 import { Repository } from 'typeorm';
-import { NewContentDto } from './dto/new-content.dto';
 import { TopicsService } from '../topics/topics.service';
+import { NewContentDto } from './dto/new-content.dto';
+import { Content } from './entities/content.entity';
 
 @Injectable()
 export class ContentsService {

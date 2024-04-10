@@ -1,15 +1,14 @@
-import { Body, Controller, Get, Patch, Post } from '@nestjs/common';
-import { UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
 
-import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create.dto';
-import { UpdateUserImageDto } from './dto/update-image.dto';
 import { UpdateUserDataDto } from './dto/update-data.dto';
+import { UpdateUserImageDto } from './dto/update-image.dto';
 import { UpdateUserPasswordDto } from './dto/update-password.dto';
+import { UsersService } from './users.service';
 
-import { ATGuard } from '../common/guards/accessToken.guard';
 import { GetCurrId } from '../common/decorators/getCurrId.decorator';
 import { ROLES } from '../common/decorators/roles.decorator';
+import { ATGuard } from '../common/guards/accessToken.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { UserRole } from './enums/user.enum';
 
