@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsNumber } from 'class-validator';
 
-export class SaveProgressScoreDto {
+export class SaveQuizScoreDto {
   @IsNotEmpty()
   @IsNumber()
-  progressScore: number;
+  quizScore: number;
 }

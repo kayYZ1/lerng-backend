@@ -5,7 +5,8 @@ import { Progress } from './entities/progress.entity';
 
 import { TopicsService } from '../topics/topics.service';
 import { UsersService } from '../users/users.service';
-import { SaveProgressDto } from './dto/save-progress.dto';
+import { SaveProgressScoreDto } from './dto/save-progress.dto';
+import { SaveQuizScoreDto } from './dto/save-quiz.dto';
 
 @Injectable()
 export class ProgressService {
@@ -20,29 +21,6 @@ export class ProgressService {
     return await this.progressRepository.findOne({
       where: { user: { id: userId }, topic: { id: topicId } },
     });
-  }
-
-  async saveProgress(userId: string, dto: SaveProgressDto, topicId: string) {
-    const topicExist = await this.topicsService.findTopicById(topicId);
-    const userExist = await this.usersService.findOne(userId);
-
-    if (!topicExist) throw new BadRequestException('Topic does not exist');
-    if (!userExist) throw new BadRequestException('User does not exist');
-
-    const progressExist = await this.getProgress(userId, topicId);
-
-    if (progressExist) {
-      progressExist.quizScore = dto.quizScore;
-      progressExist.progressScore = dto.progressScore;
-
-      this.progressRepository.update(progressExist.id, progressExist);
-    } else {
-      const progress = new Progress();
-      progress.topic = topicExist;
-      progress.user = userExist;
-
-      this.progressRepository.save(progress);
-    }
   }
 
   async getUserProgress(userId: string, courseId: string) {
@@ -73,5 +51,49 @@ export class ProgressService {
     }
 
     return progressArrayFiltered;
+  }
+
+  async initializeProgress(userId: string, topicId: string) {
+    const progressExist = await this.getProgress(userId, topicId);
+    if (!progressExist) {
+      const topicExist = await this.topicsService.findTopicById(topicId);
+      const userExist = await this.usersService.findOne(userId);
+
+      if (!topicExist) throw new BadRequestException('Topic does not exist');
+      if (!userExist) throw new BadRequestException('User does not exist');
+
+      const progressInit = new Progress();
+
+      progressInit.topic = topicExist;
+      progressInit.user = userExist;
+      progressInit.progressScore = 0;
+      progressInit.quizScore = 0;
+
+      await this.progressRepository.save(progressInit);
+    }
+  }
+
+  async saveProgressScore(
+    userId: string,
+    topicId: string,
+    dto: SaveProgressScoreDto,
+  ) {
+    await this.initializeProgress(userId, topicId);
+
+    const progressExist = await this.getProgress(userId, topicId);
+
+    progressExist.progressScore = dto.progressScore;
+
+    await this.progressRepository.update(progressExist.id, progressExist);
+  }
+
+  async saveQuizScore(userId: string, topicId: string, dto: SaveQuizScoreDto) {
+    await this.initializeProgress(userId, topicId);
+
+    const progressExist = await this.getProgress(userId, topicId);
+
+    progressExist.quizScore = dto.quizScore;
+
+    await this.progressRepository.update(progressExist.id, progressExist);
   }
 }
