@@ -11,11 +11,15 @@ export class NewContentDto {
 
   @IsNotEmpty()
   @IsString()
-  textFirst: string;
+  paragraph500: string;
 
   @IsNotEmpty()
   @IsString()
-  textSecond: string;
+  paragraph750: string;
+
+  @IsNotEmpty()
+  @IsString()
+  paragraph300: string;
 
   imageUrl: string;
 

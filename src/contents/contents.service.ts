@@ -16,17 +16,17 @@ export class ContentsService {
   async addNewContent(dto: NewContentDto, topicId: string) {
     const content = new Content();
 
-    const moduleExist = await this.topicsService.findTopicById(topicId);
+    const topicExist = await this.topicsService.findTopicById(topicId);
 
-    if (!moduleExist) throw new BadRequestException('Module does not exist');
+    if (!topicExist) throw new BadRequestException('Module does not exist');
 
     content.title = dto.title;
     content.description = dto.description;
-    content.textFirst = dto.textFirst;
-    content.textSecond = dto.textSecond;
-    content.imageUrl = dto.imageUrl;
+    content.paragraph500 = dto.paragraph500;
+    content.paragraph750 = dto.paragraph750;
+    content.paragraph300 = dto.paragraph300;
     content.videoUrl = dto.videoUrl;
-    content.topic = moduleExist;
+    content.topic = topicExist;
 
     return this.contentRepository.save(content);
   }
