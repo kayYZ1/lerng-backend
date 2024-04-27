@@ -18,7 +18,7 @@ export class ContentsService {
 
     const topicExist = await this.topicsService.findTopicById(topicId);
 
-    if (!topicExist) throw new BadRequestException('Module does not exist');
+    if (!topicExist) throw new BadRequestException('Topic does not exist');
 
     content.title = dto.title;
     content.description = dto.description;

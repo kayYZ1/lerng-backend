@@ -12,13 +12,13 @@ export class Content {
   @Column({ type: 'varchar', length: 200 })
   description: string;
 
-  @Column({ type: 'varchar', length: 500 })
+  @Column({ type: 'text' })
   paragraph500: string;
 
-  @Column({ type: 'varchar', length: 750 })
+  @Column({ type: 'text' })
   paragraph750: string;
 
-  @Column({ type: 'varchar', length: 300 })
+  @Column({ type: 'text' })
   paragraph300: string;
 
   @Column({ type: 'varchar', nullable: true })
