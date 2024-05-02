@@ -23,7 +23,7 @@ import { Topic } from './topics/entities/topics.entity';
       host: 'localhost',
       port: 3306,
       username: 'kayz',
-      password: '1234',
+      password: '12345678' || '1234',
       database: 'LMSLinux',
       entities: [User, Course, Topic, Content, Question, Progress],
       synchronize: true,
