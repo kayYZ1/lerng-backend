@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+import { Enrolled } from 'src/enrolled/entities/enrolled.entity';
 import { Topic } from '../../topics/entities/topics.entity';
 import { User } from '../../users/entity/user.entity';
 
@@ -33,6 +34,9 @@ export class Course {
 
   @OneToMany(() => Topic, (topic) => topic.course)
   topics: Topic[];
+
+  @OneToMany(() => Enrolled, (enrolled) => enrolled.course)
+  enrolled: Enrolled[];
 
   @ManyToOne(() => User, (user) => user.courses)
   user: User;

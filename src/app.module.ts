@@ -10,6 +10,8 @@ import { UsersModule } from './users/users.module';
 
 import { ContentsModule } from './contents/contents.module';
 import { Content } from './contents/entities/content.entity';
+import { EnrolledModule } from './enrolled/enrolled.module';
+import { Enrolled } from './enrolled/entities/enrolled.entity';
 import { Progress } from './progress/entities/progress.entity';
 import { ProgressModule } from './progress/progress.module';
 import { Question } from './questions/entities/question.entity';
@@ -23,9 +25,9 @@ import { Topic } from './topics/entities/topics.entity';
       host: 'localhost',
       port: 3306,
       username: 'kayz',
-      password: '12345678' || '1234',
+      password: '1234',
       database: 'LMSLinux',
-      entities: [User, Course, Topic, Content, Question, Progress],
+      entities: [User, Course, Topic, Content, Question, Progress, Enrolled],
       synchronize: true,
     }),
     UsersModule,
@@ -35,6 +37,7 @@ import { Topic } from './topics/entities/topics.entity';
     ContentsModule,
     QuestionsModule,
     ProgressModule,
+    EnrolledModule,
   ],
 })
 export class AppModule {}
