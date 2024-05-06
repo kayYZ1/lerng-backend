@@ -13,7 +13,7 @@ export class EnrolledController {
     return this.enrolledService.addToEnrolled(userId, courseId);
   }
 
-  @Get('/:id')
+  @Get('/')
   @UseGuards(ATGuard)
   getEnrolledCourses(@GetCurrId() userId: string) {
     return this.enrolledService.getEnrolledCourses(userId);
