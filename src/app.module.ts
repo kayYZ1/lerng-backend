@@ -20,7 +20,7 @@ import { QuestionsModule } from './questions/questions.module';
       username: 'kayz',
       password: '1234',
       database: 'LMSLinux',
-      entities: [__dirname + '/**/*.entity{.ts}'],
+      autoLoadEntities: true,
       synchronize: true,
     }),
     UsersModule,
