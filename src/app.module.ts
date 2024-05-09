@@ -3,20 +3,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AuthModule } from './auth/auth.module';
 import { CoursesModule } from './courses/courses.module';
-import { Course } from './courses/entities/course.entity';
 import { TopicsModule } from './topics/topics.module.';
-import { User } from './users/entity/user.entity';
 import { UsersModule } from './users/users.module';
 
 import { ContentsModule } from './contents/contents.module';
-import { Content } from './contents/entities/content.entity';
 import { EnrolledModule } from './enrolled/enrolled.module';
-import { Enrolled } from './enrolled/entities/enrolled.entity';
-import { Progress } from './progress/entities/progress.entity';
 import { ProgressModule } from './progress/progress.module';
-import { Question } from './questions/entities/question.entity';
 import { QuestionsModule } from './questions/questions.module';
-import { Topic } from './topics/entities/topics.entity';
 
 @Module({
   imports: [
@@ -27,7 +20,7 @@ import { Topic } from './topics/entities/topics.entity';
       username: 'kayz',
       password: '1234',
       database: 'LMSLinux',
-      entities: [User, Course, Topic, Content, Question, Progress, Enrolled],
+      entities: [__dirname + '/**/*.entity{.ts}'],
       synchronize: true,
     }),
     UsersModule,
