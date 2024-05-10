@@ -6,6 +6,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
+import { ConfigService } from '@nestjs/config';
 import { CreateUserDto } from '../users/dto/create.dto';
 import { UserRole } from '../users/enums/user.enum';
 import { UsersService } from '../users/users.service';
@@ -17,6 +18,7 @@ export class AuthService {
   constructor(
     private readonly userService: UsersService,
     private jwtService: JwtService,
+    private configService: ConfigService,
   ) {}
 
   async signUp(dto: CreateUserDto) {
@@ -90,11 +92,11 @@ export class AuthService {
 
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(payload, {
-        secret: process.env.access_token,
+        secret: this.configService.get<string>('jwt.access_token'),
         expiresIn: '15m',
       }),
       this.jwtService.signAsync(payload, {
-        secret: process.env.refresh_token,
+        secret: this.configService.get<string>('jwt.refresh_token'),
         expiresIn: '1d',
       }),
     ]);
