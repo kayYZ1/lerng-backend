@@ -18,7 +18,7 @@ import { UsersModule } from './users/users.module';
       imports: [
         ConfigModule.forRoot({
           load: [dbConfig],
-          envFilePath: ['.env.development', '.env.production'],
+          envFilePath: `${process.cwd()}/src/config/env/.env.${process.env.NODE_ENV}`,
         }),
       ],
       useFactory: (configService: ConfigService) => ({
