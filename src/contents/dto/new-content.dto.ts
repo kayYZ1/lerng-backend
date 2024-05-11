@@ -11,11 +11,7 @@ export class NewContentDto {
 
   @IsNotEmpty()
   @IsString()
-  paragraph500: string;
-
-  @IsNotEmpty()
-  @IsString()
-  paragraph750: string;
+  paragraph150: string;
 
   @IsNotEmpty()
   @IsString()

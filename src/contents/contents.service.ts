@@ -22,8 +22,7 @@ export class ContentsService {
 
     content.title = dto.title;
     content.description = dto.description;
-    content.paragraph500 = dto.paragraph500;
-    content.paragraph750 = dto.paragraph750;
+    content.paragraph150 = dto.paragraph150;
     content.paragraph300 = dto.paragraph300;
     content.videoUrl = dto.videoUrl;
     content.topic = topicExist;
