@@ -38,7 +38,7 @@ export class User {
   })
   created: Date;
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column({ type: 'varchar', nullable: true, length: 255 })
   refreshToken: string | null;
 
   @OneToMany(() => Course, (course) => course.user)

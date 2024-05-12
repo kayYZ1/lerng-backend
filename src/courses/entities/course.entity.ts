@@ -19,7 +19,7 @@ export class Course {
   @Column({ type: 'varchar', length: 40 })
   title: string;
 
-  @Column({ type: 'varchar', length: 200 })
+  @Column({ type: 'varchar', length: 120 })
   description: string;
 
   @Column({ type: 'varchar' })

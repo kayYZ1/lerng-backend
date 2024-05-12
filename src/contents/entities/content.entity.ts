@@ -9,7 +9,7 @@ export class Content {
   @Column({ type: 'varchar', length: 40 })
   title: string;
 
-  @Column({ type: 'varchar', length: 200 })
+  @Column({ type: 'varchar', length: 80 })
   description: string;
 
   @Column({ type: 'text', width: 150 })
