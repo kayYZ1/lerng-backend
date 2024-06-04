@@ -6,7 +6,7 @@ import { MailService } from './mail.service';
 export class MailController {
   constructor(private readonly mailService: MailService) {}
 
-  @Get()
+  @Get('/test')
   sendTestMail(@Body() dto: MailDto) {
     return this.mailService.sendTestMail(dto.email);
   }

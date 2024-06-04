@@ -9,7 +9,7 @@ export class MailService {
     const message = 'Hello this is the test mail!';
 
     await this.mailerService.sendMail({
-      from: 'lms-linux<@noreply.com>',
+      from: 'lms-linux<@noreply>',
       to: email,
       subject: 'Test email!',
       text: message,
