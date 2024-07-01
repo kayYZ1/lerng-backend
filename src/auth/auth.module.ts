@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 
 import { ConfigModule } from '@nestjs/config';
+import { MailModule } from 'src/mail/mail.module';
 import jwtConfig from '../config/jwt.config';
 import { UsersModule } from '../users/users.module';
 import { AuthController } from './auth.controller';
@@ -12,6 +13,7 @@ import { RefreshTokenStrategy } from './strategies/refresh-token.strategy';
 @Module({
   imports: [
     UsersModule,
+    MailModule,
     JwtModule.register({}),
     ConfigModule.forFeature(jwtConfig),
   ],

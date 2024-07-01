@@ -12,12 +12,25 @@ export class MailService {
       from: 'lms-linux<@noreply>',
       to: email,
       subject: 'Test email!',
-      template: './confirm-registration',
+      template: './forgot-password',
       context: {
         name: 'SIEMA',
         confirmation_url: message,
       },
       text: message,
+    });
+  }
+
+  async passwordReset(email: string, resetLink: string) {
+    await this.mailerService.sendMail({
+      from: 'lms-linux<@noreply>',
+      to: email,
+      subject: 'Test email!',
+      template: './forgot-password',
+      context: {
+        name: email,
+        confirmation_url: resetLink,
+      },
     });
   }
 }

@@ -32,6 +32,7 @@ import { MailService } from './mail.service';
     }),
   ],
   controllers: [MailController],
+  exports: [MailService],
   providers: [MailService],
 })
 export class MailModule {}
