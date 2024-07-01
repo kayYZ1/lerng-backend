@@ -12,6 +12,11 @@ export class MailService {
       from: 'lms-linux<@noreply>',
       to: email,
       subject: 'Test email!',
+      template: './confirm-registration',
+      context: {
+        name: 'SIEMA',
+        confirmation_url: message,
+      },
       text: message,
     });
   }
