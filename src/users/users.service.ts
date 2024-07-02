@@ -66,6 +66,17 @@ export class UsersService {
     return await this.userRepository.update(id, userExist);
   }
 
+  async resetUserPassword(id: string, newPassword: string) {
+    const userExist = await this.findOne(id);
+    if (!userExist) throw new BadRequestException('User does not exist.');
+
+    const newPasswordHash = await bcrypt.hash(newPassword, 8);
+
+    userExist.password = newPasswordHash;
+
+    return await this.userRepository.update(id, userExist);
+  }
+
   async updateRt(id: string, dto: UpdateRtDto) {
     return await this.userRepository.update(id, dto);
   }

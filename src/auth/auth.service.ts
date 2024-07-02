@@ -12,6 +12,7 @@ import { MailService } from 'src/mail/mail.service';
 import { CreateUserDto } from '../users/dto/create.dto';
 import { UserRole } from '../users/enums/user.enum';
 import { UsersService } from '../users/users.service';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 import { SignInDto } from './dto/sign-in.dto';
 import { JwtPayload } from './types';
 
@@ -134,12 +135,23 @@ export class AuthService {
     };
 
     const resetToken = await this.jwtService.signAsync(payload, {
-      secret: user.id,
+      secret: this.configService.get<string>('jwt.password_reset'),
       expiresIn: '5m',
     });
 
     const resetLink = `http://localhost:5173/auth/forgot-password/${resetToken}`;
 
     await this.mailService.passwordReset(dto.email, resetLink);
+  }
+
+  async resetPassword(dto: ResetPasswordDto) {
+    try {
+      const payload: JwtPayload = await this.jwtService.verifyAsync(dto.token, {
+        secret: this.configService.get<string>('jwt.password_reset'),
+      });
+      this.userService.resetUserPassword(payload.sub, dto.password);
+    } catch (error) {
+      throw new BadRequestException('Token already expired');
+    }
   }
 }
