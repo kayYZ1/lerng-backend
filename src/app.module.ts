@@ -7,6 +7,7 @@ import dbConfig from './config/db.config';
 import { ContentsModule } from './contents/contents.module';
 import { CoursesModule } from './courses/courses.module';
 import { EnrolledModule } from './enrolled/enrolled.module';
+import { MailModule } from './mail/mail.module';
 import { ProgressModule } from './progress/progress.module';
 import { QuestionsModule } from './questions/questions.module';
 import { TopicsModule } from './topics/topics.module.';
@@ -42,6 +43,7 @@ import { UsersModule } from './users/users.module';
     QuestionsModule,
     TopicsModule,
     UsersModule,
+    MailModule,
   ],
 })
 export class AppModule {}

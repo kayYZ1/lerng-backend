@@ -17,6 +17,8 @@ import { SignInDto } from './dto/sign-in.dto';
 import { GetCurrId } from '../common/decorators/getCurrId.decorator';
 import { ATGuard } from '../common/guards/accessToken.guard';
 import { RTGuard } from '../common/guards/refreshToken.guard';
+import { MailDto } from './dto/mail.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -68,5 +70,15 @@ export class AuthController {
   @Get('/me')
   getMe(@GetCurrId() userId: string) {
     return this.authService.getMe(userId);
+  }
+
+  @Post('/forgot-password')
+  forgotPassword(@Body() dto: MailDto) {
+    return this.authService.forgotPassword(dto);
+  }
+
+  @Post('/reset-password')
+  resetPassword(@Body() dto: ResetPasswordDto) {
+    return this.authService.resetPassword(dto);
   }
 }

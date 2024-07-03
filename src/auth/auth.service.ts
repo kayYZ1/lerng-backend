@@ -7,9 +7,12 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
 import { ConfigService } from '@nestjs/config';
+import { MailDto } from 'src/mail/dto/mail.dto';
+import { MailService } from 'src/mail/mail.service';
 import { CreateUserDto } from '../users/dto/create.dto';
 import { UserRole } from '../users/enums/user.enum';
 import { UsersService } from '../users/users.service';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 import { SignInDto } from './dto/sign-in.dto';
 import { JwtPayload } from './types';
 
@@ -17,6 +20,7 @@ import { JwtPayload } from './types';
 export class AuthService {
   constructor(
     private readonly userService: UsersService,
+    private readonly mailService: MailService,
     private jwtService: JwtService,
     private configService: ConfigService,
   ) {}
@@ -118,5 +122,36 @@ export class AuthService {
     };
 
     return userModified;
+  }
+
+  async forgotPassword(dto: MailDto) {
+    const user = await this.userService.findOneWithEmail(dto.email);
+    if (!user) throw new BadRequestException('Email not found');
+
+    const payload: JwtPayload = {
+      sub: user.id,
+      email: dto.email,
+      role: user.role,
+    };
+
+    const resetToken = await this.jwtService.signAsync(payload, {
+      secret: this.configService.get<string>('jwt.password_reset'),
+      expiresIn: '5m',
+    });
+
+    const resetLink = `http://localhost:5173/auth/forgot-password/${resetToken}`;
+
+    await this.mailService.passwordReset(dto.email, resetLink);
+  }
+
+  async resetPassword(dto: ResetPasswordDto) {
+    try {
+      const payload: JwtPayload = await this.jwtService.verifyAsync(dto.token, {
+        secret: this.configService.get<string>('jwt.password_reset'),
+      });
+      this.userService.resetUserPassword(payload.sub, dto.password);
+    } catch (error) {
+      throw new BadRequestException('Link has already expired');
+    }
   }
 }
