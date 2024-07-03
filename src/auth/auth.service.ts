@@ -126,7 +126,7 @@ export class AuthService {
 
   async forgotPassword(dto: MailDto) {
     const user = await this.userService.findOneWithEmail(dto.email);
-    if (!user) throw new BadRequestException('User does not exist');
+    if (!user) throw new BadRequestException('Email not found');
 
     const payload: JwtPayload = {
       sub: user.id,
@@ -151,7 +151,7 @@ export class AuthService {
       });
       this.userService.resetUserPassword(payload.sub, dto.password);
     } catch (error) {
-      throw new BadRequestException('Token already expired');
+      throw new BadRequestException('Link has already expired');
     }
   }
 }
