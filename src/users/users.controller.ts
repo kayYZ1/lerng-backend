@@ -48,4 +48,9 @@ export class UsersController {
   getUsers() {
     return this.usersService.getUsers();
   }
+
+  @Get('/latest-users')
+  getLatestUsers() {
+    return this.usersService.getLatestUsers();
+  }
 }

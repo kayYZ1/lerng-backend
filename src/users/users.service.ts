@@ -96,4 +96,18 @@ export class UsersService {
   async getUsers() {
     return await this.userRepository.find();
   }
+
+  async getLatestUsers() {
+    return await this.userRepository.find({
+      select: {
+        id: true,
+        imageUrl: true,
+      },
+      order: {
+        created: 'DESC',
+      },
+      skip: 0,
+      take: 3,
+    });
+  }
 }
