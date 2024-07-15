@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { UsersService } from '../users/users.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { Course } from './entities/course.entity';
+import { DateFilter } from './enum/courses.enum';
 
 @Injectable()
 export class CoursesService {
@@ -39,6 +40,22 @@ export class CoursesService {
 
   async getCourses() {
     return await this.courseRepository.find();
+  }
+
+  async filterCourses(search: string) {
+    const courses = await this.courseRepository.find();
+
+    return search
+      ? courses.filter((course) => course.title.toLowerCase().includes(search))
+      : courses;
+  }
+
+  async filterCoursesByDate(date: DateFilter) {
+    return await this.courseRepository.find({
+      order: {
+        created: date,
+      },
+    });
   }
 
   async getInstructorDataFromCourse(courseId: string) {

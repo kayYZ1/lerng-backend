@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 
@@ -7,6 +15,7 @@ import { ROLES } from '../common/decorators/roles.decorator';
 import { ATGuard } from '../common/guards/accessToken.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { UserRole } from '../users/enums/user.enum';
+import { DateFilter } from './enum/courses.enum';
 
 @Controller('courses')
 export class CoursesController {
@@ -23,6 +32,16 @@ export class CoursesController {
   @UseGuards(ATGuard)
   getCourses() {
     return this.coursesService.getCourses();
+  }
+
+  @Get('/query')
+  filterCourses(@Query('search') search: string) {
+    return this.coursesService.filterCourses(search);
+  }
+
+  @Get('/filter')
+  filterCoursesByDate(@Query('date') date: DateFilter) {
+    return this.coursesService.filterCoursesByDate(date);
   }
 
   @Get('/instructor')
