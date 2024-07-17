@@ -40,7 +40,7 @@ export class CoursesController {
   }
 
   @Get('/filter')
-  filterCoursesByDate(@Query('date') date: DateFilter) {
+  filterCoursesByDate(@Query('sort') date: DateFilter) {
     return this.coursesService.filterCoursesByDate(date);
   }
 
