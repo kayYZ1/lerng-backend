@@ -34,12 +34,12 @@ export class CoursesController {
     return this.coursesService.getCourses();
   }
 
-  @Get('/query')
+  @Post('/query')
   filterCourses(@Query('search') search: string) {
     return this.coursesService.filterCourses(search);
   }
 
-  @Get('/filter')
+  @Post('/filter')
   filterCoursesByDate(@Query('sort') date: DateFilter) {
     return this.coursesService.filterCoursesByDate(date);
   }

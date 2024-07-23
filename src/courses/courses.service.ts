@@ -45,7 +45,7 @@ export class CoursesService {
   async filterCourses(search: string) {
     const courses = await this.courseRepository.find();
 
-    return search
+    return search.length > 2
       ? courses.filter((course) => course.title.toLowerCase().includes(search))
       : courses;
   }
