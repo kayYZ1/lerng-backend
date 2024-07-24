@@ -35,11 +35,13 @@ export class CoursesController {
   }
 
   @Post('/query')
+  @UseGuards(ATGuard)
   filterCourses(@Query('search') search: string) {
     return this.coursesService.filterCourses(search);
   }
 
   @Post('/filter')
+  @UseGuards(ATGuard)
   filterCoursesByDate(@Query('sort') date: DateFilter) {
     return this.coursesService.filterCoursesByDate(date);
   }
