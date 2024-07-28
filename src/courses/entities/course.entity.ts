@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 
 import { Enrolled } from 'src/enrolled/entities/enrolled.entity';
+import { Feedback } from 'src/feedback/entities/feedback.entity';
 import { Topic } from '../../topics/entities/topics.entity';
 import { User } from '../../users/entity/user.entity';
 
@@ -37,6 +38,9 @@ export class Course {
 
   @OneToMany(() => Enrolled, (enrolled) => enrolled.course)
   enrolled: Enrolled[];
+
+  @OneToMany(() => Feedback, (feedback) => feedback.course)
+  feedback: Feedback[];
 
   @ManyToOne(() => User, (user) => user.courses)
   user: User;
