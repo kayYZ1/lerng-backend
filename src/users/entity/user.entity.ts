@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 
 import { Enrolled } from 'src/enrolled/entities/enrolled.entity';
+import { Feedback } from 'src/feedback/entities/feedback.entity';
 import { Course } from '../../courses/entities/course.entity';
 import { Progress } from '../../progress/entities/progress.entity';
 import { UserRole } from '../enums/user.enum';
@@ -49,4 +50,7 @@ export class User {
 
   @OneToMany(() => Enrolled, (enrolled) => enrolled.user)
   enrolled: Enrolled[];
+
+  @OneToMany(() => Feedback, (feedback) => feedback.user)
+  feedback: Feedback[];
 }

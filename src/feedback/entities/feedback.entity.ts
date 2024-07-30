@@ -1,4 +1,3 @@
-import { Course } from 'src/courses/entities/course.entity';
 import {
   Column,
   CreateDateColumn,
@@ -7,6 +6,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Course } from '../../courses/entities/course.entity';
+import { User } from '../../users/entity/user.entity';
 import { TicketStatus } from '../enum/feedback.enum';
 
 @Entity()
@@ -26,12 +27,24 @@ export class Feedback {
   @Column({ type: 'text', width: 400 })
   details: string;
 
-  @CreateDateColumn()
-  created_at: Date;
+  @CreateDateColumn({
+    precision: null,
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  created: Date;
 
-  @UpdateDateColumn()
-  updated_at: Date;
+  @UpdateDateColumn({
+    precision: null,
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
+  updated: Date;
 
   @ManyToOne(() => Course, (course) => course.feedback)
   course: Course;
+
+  @ManyToOne(() => User, (user) => user.feedback)
+  user: User;
 }
