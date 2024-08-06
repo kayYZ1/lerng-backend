@@ -12,7 +12,7 @@ import { FeedbackService } from './feedback.service';
 export class FeedbackController {
   constructor(private readonly feedbackService: FeedbackService) {}
 
-  @Post('/add-ticket')
+  @Post('/tickets/add')
   @UseGuards(ATGuard)
   addFeedbackTicket(
     @Body() dto: FeedbackTicketDto,

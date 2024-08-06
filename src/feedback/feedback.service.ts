@@ -45,10 +45,10 @@ export class FeedbackService {
 
     feedbackTicket.status = dto.status;
 
-    return await this.feedbackRepository.update(
-      feedbackTicket.id,
-      feedbackTicket,
-    );
+    return await this.feedbackRepository.update(feedbackTicket.id, {
+      status: dto.status,
+      updated: new Date(),
+    });
   }
 
   async getFeedbackTickets(userId: string) {
