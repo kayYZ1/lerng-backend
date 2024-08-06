@@ -5,6 +5,7 @@ import { CoursesService } from 'src/courses/courses.service';
 import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
 import { FeedbackTicketDto } from './dto/feedback.dto';
+import { TicketStatusDto } from './dto/ticket-status.dto';
 import { Feedback } from './entities/feedback.entity';
 
 @Injectable()
@@ -32,6 +33,22 @@ export class FeedbackService {
     ticket.course = courseExist;
 
     return this.feedbackRepository.save(ticket);
+  }
+
+  async changeTicketStatus(dto: TicketStatusDto) {
+    const feedbackTicket = await this.feedbackRepository.findOne({
+      where: { id: dto.feedbackId },
+    });
+
+    if (!feedbackTicket)
+      throw new BadRequestException('This feedback ticket does not exist');
+
+    feedbackTicket.status = dto.status;
+
+    return await this.feedbackRepository.update(
+      feedbackTicket.id,
+      feedbackTicket,
+    );
   }
 
   async getFeedbackTickets(userId: string) {
