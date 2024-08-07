@@ -53,6 +53,16 @@ export class FeedbackService {
   async getFeedbackTickets(userId: string) {
     return await this.feedbackRepository.find({
       where: { user: { id: userId } },
+      relations: ['course', 'user'],
+      select: {
+        course: {
+          title: true,
+        },
+        user: {
+          email: true,
+          username: true,
+        },
+      },
     });
   }
 
@@ -60,6 +70,12 @@ export class FeedbackService {
     return await this.feedbackRepository.find({
       where: {
         course: { user: { id: userId } },
+      },
+      relations: ['course'],
+      select: {
+        course: {
+          title: true,
+        },
       },
     });
   }
