@@ -42,6 +42,9 @@ export class Feedback {
   })
   updated: Date;
 
+  @Column({ type: 'varchar', length: 200, default: null })
+  feedbackMessage: string | null;
+
   @ManyToOne(() => Course, (course) => course.feedback)
   course: Course;
 

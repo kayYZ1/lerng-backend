@@ -43,11 +43,10 @@ export class FeedbackService {
     if (!feedbackTicket)
       throw new BadRequestException('This feedback ticket does not exist');
 
-    feedbackTicket.status = dto.status;
-
     return await this.feedbackRepository.update(feedbackTicket.id, {
       status: dto.status,
       updated: new Date(),
+      feedbackMessage: dto.feedbackMessage,
     });
   }
 

@@ -8,4 +8,8 @@ export class TicketStatusDto {
 
   @IsEnum(TicketStatus)
   status: TicketStatus;
+
+  @IsNotEmpty()
+  @IsString()
+  feedbackMessage: string;
 }
