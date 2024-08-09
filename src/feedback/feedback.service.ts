@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { FeedbackTicketDto } from './dto/feedback.dto';
 import { TicketStatusDto } from './dto/ticket-status.dto';
 import { Feedback } from './entities/feedback.entity';
+import { alphanumeric } from './feedback.utils';
 
 @Injectable()
 export class FeedbackService {
@@ -28,11 +29,20 @@ export class FeedbackService {
 
     ticket.problem = dto.problem;
     ticket.details = dto.details;
-    ticket.ticket_id = '12345';
+    ticket.ticket_id = this.generateTicketId();
     ticket.user = userExist;
     ticket.course = courseExist;
 
     return this.feedbackRepository.save(ticket);
+  }
+
+  generateTicketId() {
+    const ticketId = [];
+    for (let i = 0; i < 6; i++) {
+      let idx = +(Math.random() * 35).toFixed(0);
+      ticketId.push(alphanumeric[idx]);
+    }
+    return ticketId.join('');
   }
 
   async changeTicketStatus(dto: TicketStatusDto) {
@@ -57,10 +67,6 @@ export class FeedbackService {
       select: {
         course: {
           title: true,
-        },
-        user: {
-          email: true,
-          username: true,
         },
       },
     });
