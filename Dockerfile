@@ -1,4 +1,4 @@
-FROM node:18-alpine As dev
+FROM node:18-alpine As prod 
 
 WORKDIR /app
 
@@ -9,7 +9,5 @@ RUN npm install
 COPY --chown=node:node . .
 
 RUN npm run build
-
-ENV NODE_ENV development
 
 CMD [ "node", "dist/main.js" ]
