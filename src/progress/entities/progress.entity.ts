@@ -12,7 +12,7 @@ export class Progress {
   quizScore: number;
 
   @Column({ type: 'numeric', default: 0 })
-  progressScore: number;
+  scorePercentage: number;
 
   @ManyToOne(() => User, (user) => user.topicProgress)
   user: User;

@@ -3,9 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Progress } from './entities/progress.entity';
 
+import { QuestionsService } from 'src/questions/questions.service';
 import { TopicsService } from '../topics/topics.service';
 import { UsersService } from '../users/users.service';
-import { SaveProgressScoreDto } from './dto/save-progress.dto';
 import { SaveQuizScoreDto } from './dto/save-quiz.dto';
 
 @Injectable()
@@ -15,6 +15,7 @@ export class ProgressService {
     private readonly progressRepository: Repository<Progress>,
     private topicsService: TopicsService,
     private usersService: UsersService,
+    private questionsService: QuestionsService,
   ) {}
 
   async getProgress(userId: string, topicId: string) {
@@ -35,7 +36,7 @@ export class ProgressService {
           return {
             id: topic.id,
             title: topic.title,
-            progress: progressExist.progressScore,
+            scorePercentage: progressExist.scorePercentage,
             quizScore: progressExist.quizScore,
           };
         } else return null;
@@ -66,33 +67,22 @@ export class ProgressService {
 
       progressInit.topic = topicExist;
       progressInit.user = userExist;
-      progressInit.progressScore = 0;
+      progressInit.scorePercentage = 0;
       progressInit.quizScore = 0;
 
       await this.progressRepository.save(progressInit);
     }
   }
 
-  async saveProgressScore(
-    userId: string,
-    topicId: string,
-    dto: SaveProgressScoreDto,
-  ) {
-    await this.initializeProgress(userId, topicId);
-
-    const progressExist = await this.getProgress(userId, topicId);
-
-    progressExist.progressScore = dto.progressScore;
-
-    await this.progressRepository.update(progressExist.id, progressExist);
-  }
-
   async saveQuizScore(userId: string, topicId: string, dto: SaveQuizScoreDto) {
     await this.initializeProgress(userId, topicId);
 
     const progressExist = await this.getProgress(userId, topicId);
+    const questions =
+      await this.questionsService.getQuestionsFromTopic(topicId);
 
     progressExist.quizScore = dto.quizScore;
+    progressExist.scorePercentage = (dto.quizScore / questions.length) * 100;
 
     await this.progressRepository.update(progressExist.id, progressExist);
   }

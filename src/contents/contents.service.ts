@@ -35,4 +35,8 @@ export class ContentsService {
       where: { topic: { id: topicId } },
     });
   }
+
+  async getContent(contentId: string) {
+    return await this.contentRepository.findOne({ where: { id: contentId } });
+  }
 }
