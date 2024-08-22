@@ -39,7 +39,7 @@ export class FeedbackService {
   generateTicketId() {
     const ticketId = [];
     for (let i = 0; i < 6; i++) {
-      let idx = +(Math.random() * 35).toFixed(0);
+      const idx = +(Math.random() * 35).toFixed(0);
       ticketId.push(alphanumeric[idx]);
     }
     return ticketId.join('');
