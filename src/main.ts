@@ -23,6 +23,6 @@ async function bootstrap() {
   });
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(process.env.PORT || 3000);
+  await app.listen(process.env.APP_PORT || process.env.PORT);
 }
 bootstrap();
