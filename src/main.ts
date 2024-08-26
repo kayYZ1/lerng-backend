@@ -19,7 +19,7 @@ async function bootstrap() {
       'Authorization',
     ],
     exposedHeaders: ['Authorization'],
-    credentials: false,
+    credentials: true,
   });
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe());
