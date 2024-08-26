@@ -8,7 +8,7 @@ export class Enrolled {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', default: 0 })
   progress: number;
 
   @ManyToOne(() => User, (user) => user.enrolled)
