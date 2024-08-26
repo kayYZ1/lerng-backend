@@ -9,7 +9,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(helmet());
   app.enableCors({
-    origin: '*',
+    origin: ['http://localhost:8080', 'https://lerng.netlify.app'],
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     allowedHeaders: [
       'Content-Type',
