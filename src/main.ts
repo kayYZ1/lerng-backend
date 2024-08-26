@@ -9,7 +9,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(helmet());
   app.enableCors({
-    origin: ['http://localhost:8080', 'https://lerng.netlify.app/'],
+    origin: '*',
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     allowedHeaders: [
       'Content-Type',
@@ -19,7 +19,7 @@ async function bootstrap() {
       'Authorization',
     ],
     exposedHeaders: ['Authorization'],
-    credentials: true,
+    credentials: false,
   });
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe());
