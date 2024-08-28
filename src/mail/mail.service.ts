@@ -25,7 +25,7 @@ export class MailService {
     await this.mailerService.sendMail({
       from: 'lms-linux<@noreply>',
       to: email,
-      subject: 'Test email!',
+      subject: 'Reset password confirmation',
       template: './forgot-password',
       context: {
         name: email,
