@@ -10,6 +10,7 @@ import { FeedbackService } from './feedback.service';
 
 describe('Feedback service', () => {
   let feedbackService: FeedbackService;
+  let feedbackRepository: Repository<Feedback>;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -33,6 +34,9 @@ describe('Feedback service', () => {
     }).compile();
 
     feedbackService = moduleRef.get<FeedbackService>(FeedbackService);
+    feedbackRepository = moduleRef.get<Repository<Feedback>>(
+      getRepositoryToken(Feedback),
+    );
   });
 
   it('should be defined', () => {
@@ -40,7 +44,7 @@ describe('Feedback service', () => {
   });
 
   describe('feedback ticket algorithm', () => {
-    it('should return 5 letter unique identifier', () => {
+    it('should return 6 letter unique identifier', () => {
       const ticketId = feedbackService.generateTicketId();
       expect(ticketId).toHaveLength(6);
     });
