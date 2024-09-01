@@ -10,7 +10,6 @@ import { FeedbackService } from './feedback.service';
 
 describe('Feedback service', () => {
   let feedbackService: FeedbackService;
-  let feedbackRepository: Repository<Feedback>;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -34,9 +33,6 @@ describe('Feedback service', () => {
     }).compile();
 
     feedbackService = moduleRef.get<FeedbackService>(FeedbackService);
-    feedbackRepository = moduleRef.get<Repository<Feedback>>(
-      getRepositoryToken(Feedback),
-    );
   });
 
   it('should be defined', () => {
