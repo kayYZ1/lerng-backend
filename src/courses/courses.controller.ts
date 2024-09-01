@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -15,6 +16,7 @@ import { ROLES } from '../common/decorators/roles.decorator';
 import { ATGuard } from '../common/guards/accessToken.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { UserRole } from '../users/enums/user.enum';
+import { EditCourseDto } from './dto/edit-course.dto';
 import { DateFilter } from './enum/courses.enum';
 
 @Controller('courses')
@@ -26,6 +28,12 @@ export class CoursesController {
   @ROLES(UserRole.INSTRUCTOR)
   createCourse(@Body() dto: CreateCourseDto, @GetCurrId() userId: string) {
     return this.coursesService.createCourse(dto, userId);
+  }
+
+  @Patch('/edit')
+  @UseGuards(ATGuard, RolesGuard)
+  editCourse(@Body() dto: EditCourseDto) {
+    return this.coursesService.editCourse(dto);
   }
 
   @Get('/')

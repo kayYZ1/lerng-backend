@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 
 import { UsersService } from '../users/users.service';
 import { CreateCourseDto } from './dto/create-course.dto';
+import { EditCourseDto } from './dto/edit-course.dto';
 import { Course } from './entities/course.entity';
 import { DateFilter } from './enum/courses.enum';
 
@@ -26,6 +27,19 @@ export class CoursesService {
     course.user = instructor;
 
     return this.courseRepository.save(course);
+  }
+
+  async editCourse(dto: EditCourseDto) {
+    console.log(dto.courseId);
+    const courseExist = await this.findCourseById(dto.courseId);
+    console.log(courseExist);
+    if (!courseExist) throw new BadRequestException('Course does not exist');
+
+    return await this.courseRepository.update(courseExist.id, {
+      description: dto.description,
+      title: dto.title,
+      imageUrl: dto.imageUrl,
+    });
   }
 
   async findCourseById(courseId: string) {

@@ -139,7 +139,7 @@ export class AuthService {
       expiresIn: '5m',
     });
 
-    const resetLink = `http://localhost:5173/auth/forgot-password/${resetToken}`;
+    const resetLink = `http://localhost:8080/auth/forgot-password/${resetToken}`;
 
     await this.mailService.passwordReset(dto.email, resetLink);
   }
