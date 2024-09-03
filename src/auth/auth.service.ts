@@ -10,7 +10,7 @@ import { ConfigService } from '@nestjs/config';
 import { MailDto } from 'src/mail/dto/mail.dto';
 import { MailService } from 'src/mail/mail.service';
 import { CreateUserDto } from '../users/dto/create.dto';
-import { UserRole } from '../users/enums/user.enum';
+import { UserAccess, UserRole } from '../users/enums/user.enum';
 import { UsersService } from '../users/users.service';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { SignInDto } from './dto/sign-in.dto';
@@ -51,6 +51,12 @@ export class AuthService {
 
     if (!isMatch) {
       throw new BadRequestException('Wrong password');
+    }
+
+    if (userExist.access === UserAccess.BLOCKED) {
+      throw new BadRequestException(
+        'Your access to application has been blocked. Contact administrator for more info.',
+      );
     }
 
     const tokens = await this.getTokens(

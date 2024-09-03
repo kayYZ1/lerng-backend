@@ -3,3 +3,8 @@ export enum UserRole {
   INSTRUCTOR = 'instructor',
   ADMIN = 'admin',
 }
+
+export enum UserAccess {
+  BLOCKED = 'blocked',
+  OPEN = 'open',
+}

@@ -10,7 +10,7 @@ import { Enrolled } from 'src/enrolled/entities/enrolled.entity';
 import { Feedback } from 'src/feedback/entities/feedback.entity';
 import { Course } from '../../courses/entities/course.entity';
 import { Progress } from '../../progress/entities/progress.entity';
-import { UserRole } from '../enums/user.enum';
+import { UserAccess, UserRole } from '../enums/user.enum';
 
 @Entity()
 export class User {
@@ -38,6 +38,9 @@ export class User {
     default: () => 'CURRENT_TIMESTAMP',
   })
   created: Date;
+
+  @Column({ type: 'enum', enum: UserAccess, default: UserAccess.OPEN })
+  access: UserAccess;
 
   @Column({ type: 'varchar', nullable: true, length: 255 })
   refreshToken: string | null;
