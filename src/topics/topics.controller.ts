@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Patch, UseGuards } from '@nestjs/common';
 import { CreateTopicDto } from './dto/create-topic.dto';
+import { EditTopicDto } from './dto/edit-topic.dto';
 import { TopicsService } from './topics.service';
 
 import { ROLES } from '../common/decorators/roles.decorator';
@@ -16,6 +17,12 @@ export class TopicsController {
   @ROLES(UserRole.INSTRUCTOR)
   createTopic(@Body() dto: CreateTopicDto, @Param('id') id: string) {
     return this.topicsService.createTopic(dto, id);
+  }
+
+  @Patch('/edit/')
+  @UseGuards(ATGuard)
+  editTopic(@Body() dto: EditTopicDto) {
+    return this.topicsService.editTopic(dto);
   }
 
   @Get('/topic/:id')

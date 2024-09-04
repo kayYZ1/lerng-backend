@@ -30,9 +30,7 @@ export class CoursesService {
   }
 
   async editCourse(dto: EditCourseDto) {
-    console.log(dto.courseId);
     const courseExist = await this.findCourseById(dto.courseId);
-    console.log(courseExist);
     if (!courseExist) throw new BadRequestException('Course does not exist');
 
     return await this.courseRepository.update(courseExist.id, {
