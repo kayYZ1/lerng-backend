@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TopicsService } from '../topics/topics.service';
 import { AddQuestionDto } from './dto/add-question.dto';
+import { EditQuestionDto } from './dto/edit-question.dto';
 import { Question } from './entities/question.entity';
 
 @Injectable()
@@ -26,6 +27,20 @@ export class QuestionsService {
     newQuestion.topic = topicExist;
 
     return this.questionsRepository.save(newQuestion);
+  }
+
+  async editQuestion(dto: EditQuestionDto) {
+    const questionExist = await this.questionsRepository.findOne({
+      where: { id: dto.questionId },
+    });
+
+    if (!questionExist) throw new BadRequestException('Question does not exist.');
+
+    return this.questionsRepository.update(dto.questionId, {
+      question: dto.question,
+      type: dto.type,
+      answer: dto.answer,
+    });
   }
 
   async getQuestionsFromTopic(topicId: string) {
