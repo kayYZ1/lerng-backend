@@ -32,6 +32,7 @@ export class CoursesController {
 
   @Patch('/edit')
   @UseGuards(ATGuard, RolesGuard)
+  @ROLES(UserRole.INSTRUCTOR)
   editCourse(@Body() dto: EditCourseDto) {
     return this.coursesService.editCourse(dto);
   }

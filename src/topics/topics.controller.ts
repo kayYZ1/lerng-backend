@@ -20,7 +20,8 @@ export class TopicsController {
   }
 
   @Patch('/edit/')
-  @UseGuards(ATGuard)
+  @UseGuards(ATGuard, RolesGuard)
+  @ROLES(UserRole.INSTRUCTOR)
   editTopic(@Body() dto: EditTopicDto) {
     return this.topicsService.editTopic(dto);
   }

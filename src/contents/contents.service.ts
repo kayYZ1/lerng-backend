@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TopicsService } from '../topics/topics.service';
 import { NewContentDto } from './dto/new-content.dto';
+import { EditContentDto } from './dto/edit-content.dto';
 import { Content } from './entities/content.entity';
 
 @Injectable()
@@ -28,6 +29,19 @@ export class ContentsService {
     content.topic = topicExist;
 
     return this.contentRepository.save(content);
+  }
+
+  async editContent(dto: EditContentDto) {
+    const contentExist = await this.getContent(dto.contentId);
+    if (!contentExist) throw new BadRequestException('Content does not exist');
+
+    return await this.contentRepository.update(contentExist.id, {
+      title: dto.title,
+      description: dto.description,
+      paragraph150: dto.paragraph150,
+      paragraph300: dto.paragraph300,
+      videoUrl: dto.videoUrl,
+    }); 
   }
 
   async getContentsFromTopic(topicId: string) {
