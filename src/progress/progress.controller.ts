@@ -23,4 +23,10 @@ export class ProgressController {
   ) {
     return this.progressService.saveQuizScore(userId, topicId, dto);
   }
+
+  @Get('/count-progress/:id')
+  @UseGuards(ATGuard)
+  countProgress(@GetCurrId() userId: string, @Param('id') courseId: string) {
+    return this.progressService.countProgress(userId, courseId);
+  }
 }

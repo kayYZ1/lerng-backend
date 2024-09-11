@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Progress } from './entities/progress.entity';
 
+import { CoursesService } from 'src/courses/courses.service';
 import { QuestionsService } from 'src/questions/questions.service';
 import { TopicsService } from '../topics/topics.service';
 import { UsersService } from '../users/users.service';
@@ -15,6 +16,7 @@ export class ProgressService {
     private readonly progressRepository: Repository<Progress>,
     private topicsService: TopicsService,
     private usersService: UsersService,
+    private coursesService: CoursesService,
     private questionsService: QuestionsService,
   ) {}
 
@@ -85,5 +87,25 @@ export class ProgressService {
     progressExist.scorePercentage = (dto.quizScore / questions.length) * 100;
 
     await this.progressRepository.update(progressExist.id, progressExist);
+  }
+
+  async countProgress(userId: string, courseId: string) {
+    const courseExist = await this.coursesService.findCourseById(courseId);
+    if (!courseExist) throw new BadRequestException('Course does not exists');
+
+    const topicsFromCourse = await this.topicsService.getTopicsFromCourse(
+      courseExist.id,
+    );
+
+    let totalProgress = 0;
+
+    for (const topic of topicsFromCourse) {
+      const progressExist = await this.getProgress(userId, topic.id);
+      totalProgress += progressExist ? +progressExist.scorePercentage : 0;
+    }
+
+    return totalProgress !== 0
+      ? (totalProgress / topicsFromCourse.length).toFixed()
+      : 0;
   }
 }
