@@ -11,6 +11,7 @@ import { Enrolled } from 'src/enrolled/entities/enrolled.entity';
 import { Feedback } from 'src/feedback/entities/feedback.entity';
 import { Topic } from '../../topics/entities/topics.entity';
 import { User } from '../../users/entity/user.entity';
+import { Categories } from '../enum/courses.enum';
 
 @Entity()
 export class Course {
@@ -22,6 +23,9 @@ export class Course {
 
   @Column({ type: 'varchar', length: 120 })
   description: string;
+
+  @Column({ type: 'set', enum: Categories, default: [] })
+  categories: Categories[];
 
   @Column({ type: 'varchar' })
   imageUrl: string;

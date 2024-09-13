@@ -24,6 +24,7 @@ export class CoursesService {
     course.title = dto.title;
     course.description = dto.description;
     course.imageUrl = dto.imageUrl;
+    course.categories = dto.categories;
     course.user = instructor;
 
     return this.courseRepository.save(course);
@@ -36,6 +37,7 @@ export class CoursesService {
     return await this.courseRepository.update(courseExist.id, {
       description: dto.description,
       title: dto.title,
+      categories: dto.categories,
       imageUrl: dto.imageUrl,
     });
   }
