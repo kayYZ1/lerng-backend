@@ -43,4 +43,22 @@ export class EnrolledService {
 
     return this.enrolledRepository.save(enrolled);
   }
+
+  async coursesStatistics() {
+    const enrolledCourses = await this.enrolledRepository.find({
+      relations: ['course'],
+    });
+
+    const statistics = enrolledCourses.reduce((acc, enrollment) => {
+      const course = enrollment.course.title;
+      if (!acc[course]) {
+        acc[course] = { course, count: 0 };
+      }
+      acc[course].count++;
+
+      return acc;
+    }, {});
+
+    return Object.values(statistics);
+  }
 }
