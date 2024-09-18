@@ -44,6 +44,56 @@ export class EnrolledService {
     return this.enrolledRepository.save(enrolled);
   }
 
+  async updateRating(userId: string, courseId: string, rating: number) {
+    const enrolledExist = await this.enrolledRepository.findOne({
+      where: {
+        user: { id: userId },
+        course: { id: courseId },
+      },
+    });
+
+    if (!enrolledExist)
+      throw new BadRequestException('Not enrolled in that course');
+
+    enrolledExist.rating = rating;
+
+    return this.enrolledRepository.save(enrolledExist);
+  }
+
+  async getRating(userId: string, courseId: string) {
+    const enrolledExist = await this.enrolledRepository.findOne({
+      where: {
+        user: { id: userId },
+        course: { id: courseId },
+      },
+    });
+
+    return enrolledExist.rating;
+  }
+
+  async countAverageRating(courseId: string) {
+    const enrolledCourses = await this.enrolledRepository.find({
+      where: { course: { id: courseId } },
+    });
+
+    let ratedCourses = 0;
+    let rate = 0;
+
+    enrolledCourses.forEach((course) => {
+      if (course.rating > 0) {
+        rate += course.rating;
+        ratedCourses++;
+      }
+    });
+
+    const averageRating = {
+      rating: (rate || ratedCourses) === 0 ? 0 : rate / ratedCourses,
+      votes: ratedCourses,
+    };
+
+    return averageRating;
+  }
+
   async coursesStatistics() {
     const enrolledCourses = await this.enrolledRepository.find({
       relations: ['course'],
