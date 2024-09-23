@@ -41,6 +41,9 @@ export class TopicsService {
   async getTopicsFromCourse(courseId: string) {
     return await this.topicsRepository.find({
       where: { course: { id: courseId } },
+      order: {
+        createdAt: 'ASC',
+      },
     });
   }
 
