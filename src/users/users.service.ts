@@ -59,6 +59,10 @@ export class UsersService {
     if (!isMatch)
       throw new BadRequestException('Current password does not match.');
 
+    if (dto.password === userExist.password) {
+      throw new BadRequestException("You can't reuse the same password");
+    }
+
     const newPasswordHash = await bcrypt.hash(dto.newPassword, 8);
 
     userExist.password = newPasswordHash;
@@ -69,6 +73,10 @@ export class UsersService {
   async resetUserPassword(id: string, newPassword: string) {
     const userExist = await this.findOne(id);
     if (!userExist) throw new BadRequestException('User does not exist.');
+
+    const isMatch = await bcrypt.compare(newPassword, userExist.password);
+    if (isMatch)
+      throw new BadRequestException("You can't reuse the same password");
 
     const newPasswordHash = await bcrypt.hash(newPassword, 8);
 
