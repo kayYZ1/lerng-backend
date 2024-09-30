@@ -59,9 +59,12 @@ export class UsersService {
     if (!isMatch)
       throw new BadRequestException('Current password does not match.');
 
-    if (dto.password === userExist.password) {
+    const isPasswordTheSame = await bcrypt.compare(
+      dto.newPassword,
+      userExist.password,
+    );
+    if (isPasswordTheSame)
       throw new BadRequestException("You can't reuse the same password");
-    }
 
     const newPasswordHash = await bcrypt.hash(dto.newPassword, 8);
 
