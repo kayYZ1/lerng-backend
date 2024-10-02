@@ -31,6 +31,13 @@ export class EnrolledController {
     return this.enrolledService.getEnrolledCourses(userId);
   }
 
+  @Get('/user-courses/:id')
+  @UseGuards(ATGuard, RolesGuard)
+  @ROLES(UserRole.ADMIN)
+  getEnrolledCoursesForUser(@Param('id') userId: string) {
+    return this.enrolledService.getEnrolledCourses(userId);
+  }
+
   @Patch('/review/:id')
   @UseGuards(ATGuard)
   updateRating(

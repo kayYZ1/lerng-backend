@@ -105,7 +105,20 @@ export class UsersService {
   }
 
   async getUsers() {
-    return await this.userRepository.find();
+    return await this.userRepository.find({
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        role: true,
+        created: true,
+        access: true,
+        imageUrl: true,
+      },
+      order: {
+        created: 'DESC',
+      },
+    });
   }
 
   async getLatestUsers() {
