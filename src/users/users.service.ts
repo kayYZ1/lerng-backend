@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 
 import { User } from './entity/user.entity';
 
+import { ChangeUserAccessDto } from './dto/change-access.dto';
 import { CreateUserDto } from './dto/create.dto';
 import { UpdateUserDataDto } from './dto/update-data.dto';
 import { UpdateUserImageDto } from './dto/update-image.dto';
@@ -133,5 +134,17 @@ export class UsersService {
       skip: 0,
       take: 3,
     });
+  }
+
+  async changeUserAccess(dto: ChangeUserAccessDto) {
+    const userExist = await this.userRepository.findOne({
+      where: { id: dto.userId },
+    });
+
+    if (!userExist) throw new BadRequestException('User does not exist');
+
+    userExist.access = dto.access;
+
+    return this.userRepository.update(dto.userId, userExist);
   }
 }
