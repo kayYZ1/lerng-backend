@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 
 import { User } from './entity/user.entity';
 
+import { ChangeUserAccessDto } from './dto/change-access.dto';
 import { CreateUserDto } from './dto/create.dto';
 import { UpdateUserDataDto } from './dto/update-data.dto';
 import { UpdateUserImageDto } from './dto/update-image.dto';
@@ -59,6 +60,13 @@ export class UsersService {
     if (!isMatch)
       throw new BadRequestException('Current password does not match.');
 
+    const isPasswordTheSame = await bcrypt.compare(
+      dto.newPassword,
+      userExist.password,
+    );
+    if (isPasswordTheSame)
+      throw new BadRequestException("You can't reuse the same password");
+
     const newPasswordHash = await bcrypt.hash(dto.newPassword, 8);
 
     userExist.password = newPasswordHash;
@@ -69,6 +77,10 @@ export class UsersService {
   async resetUserPassword(id: string, newPassword: string) {
     const userExist = await this.findOne(id);
     if (!userExist) throw new BadRequestException('User does not exist.');
+
+    const isMatch = await bcrypt.compare(newPassword, userExist.password);
+    if (isMatch)
+      throw new BadRequestException("You can't reuse the same password");
 
     const newPasswordHash = await bcrypt.hash(newPassword, 8);
 
@@ -94,7 +106,20 @@ export class UsersService {
   }
 
   async getUsers() {
-    return await this.userRepository.find();
+    return await this.userRepository.find({
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        role: true,
+        created: true,
+        access: true,
+        imageUrl: true,
+      },
+      order: {
+        created: 'DESC',
+      },
+    });
   }
 
   async getLatestUsers() {
@@ -109,5 +134,17 @@ export class UsersService {
       skip: 0,
       take: 3,
     });
+  }
+
+  async changeUserAccess(dto: ChangeUserAccessDto) {
+    const userExist = await this.userRepository.findOne({
+      where: { id: dto.userId },
+    });
+
+    if (!userExist) throw new BadRequestException('User does not exist');
+
+    userExist.access = dto.access;
+
+    return this.userRepository.update(dto.userId, userExist);
   }
 }

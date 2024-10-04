@@ -21,7 +21,7 @@ export class MailService {
     });
   }
 
-  async passwordReset(email: string, resetLink: string) {
+  async sendPasswordResetMail(email: string, resetLink: string) {
     await this.mailerService.sendMail({
       from: 'lms-linux<@noreply>',
       to: email,

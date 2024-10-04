@@ -147,17 +147,19 @@ export class AuthService {
 
     const resetLink = `http://localhost:8080/auth/forgot-password/${resetToken}`;
 
-    await this.mailService.passwordReset(dto.email, resetLink);
+    await this.mailService.sendPasswordResetMail(dto.email, resetLink);
   }
 
   async resetPassword(dto: ResetPasswordDto) {
     try {
-      const payload: JwtPayload = await this.jwtService.verifyAsync(dto.token, {
+      var payload: JwtPayload = await this.jwtService.verifyAsync(dto.token, {
         secret: this.configService.get<string>('jwt.password_reset'),
       });
-      this.userService.resetUserPassword(payload.sub, dto.password);
     } catch (error) {
       throw new BadRequestException('Link has already expired');
+    } finally {
+      if (!payload) throw new BadRequestException('Link has already expired');
+      await this.userService.resetUserPassword(payload.sub, dto.password);
     }
   }
 }

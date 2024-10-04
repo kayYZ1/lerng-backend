@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
 
+import { ChangeUserAccessDto } from './dto/change-access.dto';
 import { CreateUserDto } from './dto/create.dto';
 import { UpdateUserDataDto } from './dto/update-data.dto';
 import { UpdateUserImageDto } from './dto/update-image.dto';
@@ -21,20 +22,20 @@ export class UsersController {
     return this.usersService.createUser(dto);
   }
 
-  @UseGuards(ATGuard)
   @Patch('/update/imageUrl')
+  @UseGuards(ATGuard)
   updateUserImage(@GetCurrId() id: string, @Body() dto: UpdateUserImageDto) {
     return this.usersService.updateUserImage(id, dto);
   }
 
-  @UseGuards(ATGuard)
   @Patch('/update/data')
+  @UseGuards(ATGuard)
   updateUserData(@GetCurrId() id: string, @Body() dto: UpdateUserDataDto) {
     return this.usersService.updateUserData(id, dto);
   }
 
-  @UseGuards(ATGuard)
   @Patch('/update/password')
+  @UseGuards(ATGuard)
   updateUserPassword(
     @GetCurrId() id: string,
     @Body() dto: UpdateUserPasswordDto,
@@ -42,9 +43,16 @@ export class UsersController {
     return this.usersService.updateUserPassword(id, dto);
   }
 
+  @Patch('/change-access')
   @ROLES(UserRole.ADMIN)
   @UseGuards(ATGuard, RolesGuard)
+  changeUserAccess(@Body() dto: ChangeUserAccessDto) {
+    return this.usersService.changeUserAccess(dto);
+  }
+
   @Get('/all')
+  @ROLES(UserRole.ADMIN)
+  @UseGuards(ATGuard, RolesGuard)
   getUsers() {
     return this.usersService.getUsers();
   }

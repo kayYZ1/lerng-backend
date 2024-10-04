@@ -1,5 +1,6 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   ManyToOne,
   OneToMany,
@@ -33,4 +34,11 @@ export class Topic {
 
   @OneToMany(() => Progress, (progress) => progress.topic)
   topicProgress: Progress[];
+
+  @CreateDateColumn({
+    precision: null,
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  createdAt: Date;
 }

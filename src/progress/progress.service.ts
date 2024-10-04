@@ -83,10 +83,12 @@ export class ProgressService {
     const questions =
       await this.questionsService.getQuestionsFromTopic(topicId);
 
-    progressExist.quizScore = dto.quizScore;
-    progressExist.scorePercentage = (dto.quizScore / questions.length) * 100;
+    if (dto.quizScore > progressExist.quizScore) {
+      progressExist.quizScore = dto.quizScore;
+      progressExist.scorePercentage = (dto.quizScore / questions.length) * 100;
 
-    await this.progressRepository.update(progressExist.id, progressExist);
+      await this.progressRepository.update(progressExist.id, progressExist);
+    }
   }
 
   async countProgress(userId: string, courseId: string) {
