@@ -151,8 +151,9 @@ export class AuthService {
   }
 
   async resetPassword(dto: ResetPasswordDto) {
+    let payload: JwtPayload;
     try {
-      var payload: JwtPayload = await this.jwtService.verifyAsync(dto.token, {
+      payload = await this.jwtService.verifyAsync(dto.token, {
         secret: this.configService.get<string>('jwt.password_reset'),
       });
     } catch (error) {
