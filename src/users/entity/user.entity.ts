@@ -42,7 +42,7 @@ export class User {
   @Column({ type: 'enum', enum: UserAccess, default: UserAccess.OPEN })
   access: UserAccess;
 
-  @Column({ type: 'varchar', nullable: true, length: 255 })
+  @Column({ type: 'varchar', nullable: true, length: 350 })
   refreshToken: string | null;
 
   @OneToMany(() => Course, (course) => course.user)
