@@ -19,7 +19,8 @@ export class TopicsService {
 
     const courseExist = await this.courseService.findCourseById(courseId);
 
-    if (!courseExist) throw new BadRequestException('Course does not exist.');
+    if (!courseExist)
+      throw new BadRequestException('Course does not exist.');
 
     topic.title = dto.title;
     topic.description = dto.description;
@@ -30,7 +31,8 @@ export class TopicsService {
 
   async editTopic(dto: EditTopicDto) {
     const topicExist = await this.findTopicById(dto.topicId);
-    if (!topicExist) throw new BadRequestException('Topic does not exist.');
+    if (!topicExist)
+      throw new BadRequestException('Topic does not exist.');
 
     return await this.topicsRepository.update(topicExist.id, {
       description: dto.description,

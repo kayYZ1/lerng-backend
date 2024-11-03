@@ -62,7 +62,8 @@ export class ProgressService {
       const topicExist = await this.topicsService.findTopicById(topicId);
       const userExist = await this.usersService.findOne(userId);
 
-      if (!topicExist) throw new BadRequestException('Topic does not exist');
+      if (!topicExist)
+        throw new BadRequestException('Topic does not exist');
       if (!userExist) throw new BadRequestException('User does not exist');
 
       const progressInit = new Progress();
@@ -76,7 +77,11 @@ export class ProgressService {
     }
   }
 
-  async saveQuizScore(userId: string, topicId: string, dto: SaveQuizScoreDto) {
+  async saveQuizScore(
+    userId: string,
+    topicId: string,
+    dto: SaveQuizScoreDto,
+  ) {
     await this.initializeProgress(userId, topicId);
 
     const progressExist = await this.getProgress(userId, topicId);
@@ -85,15 +90,20 @@ export class ProgressService {
 
     if (dto.quizScore > progressExist.quizScore) {
       progressExist.quizScore = dto.quizScore;
-      progressExist.scorePercentage = (dto.quizScore / questions.length) * 100;
+      progressExist.scorePercentage =
+        (dto.quizScore / questions.length) * 100;
 
-      await this.progressRepository.update(progressExist.id, progressExist);
+      await this.progressRepository.update(
+        progressExist.id,
+        progressExist,
+      );
     }
   }
 
   async countProgress(userId: string, courseId: string) {
     const courseExist = await this.coursesService.findCourseById(courseId);
-    if (!courseExist) throw new BadRequestException('Course does not exists');
+    if (!courseExist)
+      throw new BadRequestException('Course does not exists');
 
     const topicsFromCourse = await this.topicsService.getTopicsFromCourse(
       courseExist.id,

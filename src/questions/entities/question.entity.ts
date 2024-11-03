@@ -1,4 +1,9 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Topic } from '../../topics/entities/topics.entity';
 import { QuestionType } from '../enums/question.enum';
 

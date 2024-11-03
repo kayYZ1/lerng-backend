@@ -7,7 +7,11 @@ import { EnrolledService } from './enrolled.service';
 import { Enrolled } from './entities/enrolled.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Enrolled]), CoursesModule, UsersModule],
+  imports: [
+    TypeOrmModule.forFeature([Enrolled]),
+    CoursesModule,
+    UsersModule,
+  ],
   controllers: [EnrolledController],
   providers: [EnrolledService],
   exports: [EnrolledService],

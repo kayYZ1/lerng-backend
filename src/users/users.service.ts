@@ -102,7 +102,9 @@ export class UsersService {
   }
 
   async findOneWithUsername(username: string) {
-    return await this.userRepository.findOne({ where: { username: username } });
+    return await this.userRepository.findOne({
+      where: { username: username },
+    });
   }
 
   async getUsers() {

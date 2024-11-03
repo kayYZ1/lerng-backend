@@ -21,7 +21,11 @@ export class Feedback {
   @Column({ type: 'varchar', length: 40 })
   problem: string;
 
-  @Column({ type: 'enum', enum: TicketStatus, default: TicketStatus.ACTIVE })
+  @Column({
+    type: 'enum',
+    enum: TicketStatus,
+    default: TicketStatus.ACTIVE,
+  })
   status: TicketStatus;
 
   @Column({ type: 'text', width: 400 })

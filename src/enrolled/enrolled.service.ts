@@ -27,7 +27,8 @@ export class EnrolledService {
     const courseExist = await this.courseService.findCourseById(courseId);
 
     if (!userExist) throw new BadRequestException('User does not exist');
-    if (!courseExist) throw new BadRequestException('Course does not exist.');
+    if (!courseExist)
+      throw new BadRequestException('Course does not exist.');
 
     const enrolledExist = await this.enrolledRepository.findOne({
       where: { user: { id: userId }, course: { id: courseId } },

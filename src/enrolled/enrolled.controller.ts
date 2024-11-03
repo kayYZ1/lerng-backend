@@ -21,7 +21,10 @@ export class EnrolledController {
 
   @Post('/add/:id')
   @UseGuards(ATGuard)
-  addToEnrolled(@GetCurrId() userId: string, @Param('id') courseId: string) {
+  addToEnrolled(
+    @GetCurrId() userId: string,
+    @Param('id') courseId: string,
+  ) {
     return this.enrolledService.addToEnrolled(userId, courseId);
   }
 

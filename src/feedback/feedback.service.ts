@@ -19,8 +19,11 @@ export class FeedbackService {
   ) {}
 
   async addFeedbackTicket(dto: FeedbackTicketDto, userId: string) {
-    const courseExist = await this.courseService.findCourseById(dto.courseId);
-    if (!courseExist) throw new BadRequestException('Course does not exist');
+    const courseExist = await this.courseService.findCourseById(
+      dto.courseId,
+    );
+    if (!courseExist)
+      throw new BadRequestException('Course does not exist');
 
     const userExist = await this.userService.findOne(userId);
     if (!userExist) throw new BadRequestException('User does not exist');

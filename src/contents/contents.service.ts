@@ -2,8 +2,8 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TopicsService } from '../topics/topics.service';
-import { NewContentDto } from './dto/new-content.dto';
 import { EditContentDto } from './dto/edit-content.dto';
+import { NewContentDto } from './dto/new-content.dto';
 import { Content } from './entities/content.entity';
 
 @Injectable()
@@ -33,7 +33,8 @@ export class ContentsService {
 
   async editContent(dto: EditContentDto) {
     const contentExist = await this.getContent(dto.contentId);
-    if (!contentExist) throw new BadRequestException('Content does not exist');
+    if (!contentExist)
+      throw new BadRequestException('Content does not exist');
 
     return await this.contentRepository.update(contentExist.id, {
       title: dto.title,
@@ -41,7 +42,7 @@ export class ContentsService {
       paragraph150: dto.paragraph150,
       paragraph300: dto.paragraph300,
       videoUrl: dto.videoUrl,
-    }); 
+    });
   }
 
   async getContentsFromTopic(topicId: string) {
@@ -51,6 +52,8 @@ export class ContentsService {
   }
 
   async getContent(contentId: string) {
-    return await this.contentRepository.findOne({ where: { id: contentId } });
+    return await this.contentRepository.findOne({
+      where: { id: contentId },
+    });
   }
 }

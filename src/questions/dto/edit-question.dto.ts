@@ -5,7 +5,7 @@ export class EditQuestionDto {
   question: string;
   type: QuestionType;
   answer: string | boolean;
-  
+
   @IsNotEmpty()
   @IsString()
   questionId: string;

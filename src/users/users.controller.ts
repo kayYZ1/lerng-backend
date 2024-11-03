@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 
 import { ChangeUserAccessDto } from './dto/change-access.dto';
 import { CreateUserDto } from './dto/create.dto';
@@ -24,7 +31,10 @@ export class UsersController {
 
   @Patch('/update/imageUrl')
   @UseGuards(ATGuard)
-  updateUserImage(@GetCurrId() id: string, @Body() dto: UpdateUserImageDto) {
+  updateUserImage(
+    @GetCurrId() id: string,
+    @Body() dto: UpdateUserImageDto,
+  ) {
     return this.usersService.updateUserImage(id, dto);
   }
 
