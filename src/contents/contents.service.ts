@@ -45,6 +45,14 @@ export class ContentsService {
     });
   }
 
+  async removeContent(contentId: string) {
+    const contentExist = await this.getContent(contentId);
+    if (!contentExist)
+      throw new BadRequestException('Content does not exist');
+
+    return await this.contentRepository.delete(contentId);
+  }
+
   async getContentsFromTopic(topicId: string) {
     return await this.contentRepository.find({
       where: { topic: { id: topicId } },

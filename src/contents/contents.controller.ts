@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -31,6 +32,13 @@ export class ContentsController {
   @ROLES(UserRole.INSTRUCTOR)
   editContent(@Body() dto: EditContentDto) {
     return this.contentsService.editContent(dto);
+  }
+
+  @Delete('/remove/:id')
+  @UseGuards(ATGuard, RolesGuard)
+  @ROLES(UserRole.INSTRUCTOR)
+  removeContent(@Param('id') id: string) {
+    return this.contentsService.removeContent(id);
   }
 
   @Get('/:id')
