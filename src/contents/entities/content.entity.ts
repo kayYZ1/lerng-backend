@@ -26,6 +26,8 @@ export class Content {
   @Column({ type: 'varchar', nullable: true })
   videoUrl: string;
 
-  @ManyToOne(() => Topic, (topic) => topic.contents)
+  @ManyToOne(() => Topic, (topic) => topic.contents, {
+    onDelete: 'CASCADE',
+  })
   topic: Topic;
 }

@@ -40,6 +40,14 @@ export class TopicsService {
     });
   }
 
+  async removeTopic(topicId: string) {
+    const topicExist = await this.findTopicById(topicId);
+    if (!topicExist)
+      throw new BadRequestException('Topic does not exist.');
+
+    return await this.topicsRepository.delete(topicId);
+  }
+
   async getTopicsFromCourse(courseId: string) {
     return await this.topicsRepository.find({
       where: { course: { id: courseId } },

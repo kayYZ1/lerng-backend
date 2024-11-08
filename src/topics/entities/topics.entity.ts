@@ -26,13 +26,19 @@ export class Topic {
   @ManyToOne(() => Course, (course) => course.topics)
   course: Course;
 
-  @OneToMany(() => Content, (content) => content.topic)
+  @OneToMany(() => Content, (content) => content.topic, {
+    cascade: true,
+  })
   contents: Content[];
 
-  @OneToMany(() => Question, (question) => question.topic)
+  @OneToMany(() => Question, (question) => question.topic, {
+    cascade: true,
+  })
   questions: Question[];
 
-  @OneToMany(() => Progress, (progress) => progress.topic)
+  @OneToMany(() => Progress, (progress) => progress.topic, {
+    cascade: true,
+  })
   topicProgress: Progress[];
 
   @CreateDateColumn({

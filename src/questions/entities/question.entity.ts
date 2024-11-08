@@ -21,6 +21,8 @@ export class Question {
   @Column({ type: 'varchar', length: 25 })
   answer: string | boolean;
 
-  @ManyToOne(() => Topic, (topic) => topic.questions)
+  @ManyToOne(() => Topic, (topic) => topic.questions, {
+    onDelete: 'CASCADE',
+  })
   topic: Topic;
 }

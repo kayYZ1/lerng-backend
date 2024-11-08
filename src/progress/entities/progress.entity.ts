@@ -19,9 +19,13 @@ export class Progress {
   @Column({ type: 'numeric', default: 0 })
   scorePercentage: number;
 
-  @ManyToOne(() => User, (user) => user.topicProgress)
+  @ManyToOne(() => User, (user) => user.topicProgress, {
+    onDelete: 'CASCADE',
+  })
   user: User;
 
-  @ManyToOne(() => Topic, (topic) => topic.topicProgress)
+  @ManyToOne(() => Topic, (topic) => topic.topicProgress, {
+    onDelete: 'CASCADE',
+  })
   topic: Topic;
 }

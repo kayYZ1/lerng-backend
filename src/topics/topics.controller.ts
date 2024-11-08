@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -38,6 +39,13 @@ export class TopicsController {
   @UseGuards(ATGuard)
   getTopic(@Param('id') id: string) {
     return this.topicsService.getTopic(id);
+  }
+
+  @Delete('/topic/:id')
+  @UseGuards(ATGuard, RolesGuard)
+  @ROLES(UserRole.INSTRUCTOR)
+  removeTopic(@Param('id') id: string) {
+    return this.topicsService.removeTopic(id);
   }
 
   @Get('/:id')
