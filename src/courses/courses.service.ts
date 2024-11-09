@@ -44,6 +44,14 @@ export class CoursesService {
     });
   }
 
+  async removeCourse(courseId: string) {
+    const courseExist = await this.findCourseById(courseId);
+    if (!courseExist)
+      throw new BadRequestException('Course does not exist');
+
+    return await this.courseRepository.delete(courseId);
+  }
+
   async findCourseById(courseId: string) {
     return await this.courseRepository.findOne({
       where: { id: courseId },

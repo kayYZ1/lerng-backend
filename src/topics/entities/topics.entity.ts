@@ -23,7 +23,9 @@ export class Topic {
   @Column({ type: 'varchar', length: 80 })
   description: string;
 
-  @ManyToOne(() => Course, (course) => course.topics)
+  @ManyToOne(() => Course, (course) => course.topics, {
+    onDelete: 'CASCADE',
+  })
   course: Course;
 
   @OneToMany(() => Content, (content) => content.topic, {

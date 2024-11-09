@@ -37,15 +37,23 @@ export class Course {
   })
   created: Date;
 
-  @OneToMany(() => Topic, (topic) => topic.course)
+  @OneToMany(() => Topic, (topic) => topic.course, {
+    cascade: true,
+  })
   topics: Topic[];
 
-  @OneToMany(() => Enrolled, (enrolled) => enrolled.course)
+  @OneToMany(() => Enrolled, (enrolled) => enrolled.course, {
+    cascade: true,
+  })
   enrolled: Enrolled[];
 
-  @OneToMany(() => Feedback, (feedback) => feedback.course)
+  @OneToMany(() => Feedback, (feedback) => feedback.course, {
+    cascade: true,
+  })
   feedback: Feedback[];
 
-  @ManyToOne(() => User, (user) => user.courses)
+  @ManyToOne(() => User, (user) => user.courses, {
+    onDelete: 'CASCADE',
+  })
   user: User;
 }

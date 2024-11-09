@@ -49,9 +49,13 @@ export class Feedback {
   @Column({ type: 'varchar', length: 200, default: null })
   feedbackMessage: string | null;
 
-  @ManyToOne(() => Course, (course) => course.feedback)
+  @ManyToOne(() => Course, (course) => course.feedback, {
+    onDelete: 'CASCADE',
+  })
   course: Course;
 
-  @ManyToOne(() => User, (user) => user.feedback)
+  @ManyToOne(() => User, (user) => user.feedback, {
+    onDelete: 'CASCADE',
+  })
   user: User;
 }
