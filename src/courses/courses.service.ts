@@ -6,7 +6,6 @@ import { UsersService } from '../users/users.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { EditCourseDto } from './dto/edit-course.dto';
 import { Course } from './entities/course.entity';
-import { DateFilter } from './enum/courses.enum';
 
 @Injectable()
 export class CoursesService {
@@ -31,10 +30,13 @@ export class CoursesService {
     return this.courseRepository.save(course);
   }
 
-  async editCourse(dto: EditCourseDto) {
+  async editCourse(dto: EditCourseDto, userId: string) {
     const courseExist = await this.findCourseById(dto.courseId);
     if (!courseExist)
       throw new BadRequestException('Course does not exist');
+
+    if (courseExist.user.id !== userId)
+      throw new BadRequestException('Your not the creator of this course');
 
     return await this.courseRepository.update(courseExist.id, {
       description: dto.description,
@@ -44,10 +46,13 @@ export class CoursesService {
     });
   }
 
-  async removeCourse(courseId: string) {
+  async removeCourse(courseId: string, userId: string) {
     const courseExist = await this.findCourseById(courseId);
     if (!courseExist)
       throw new BadRequestException('Course does not exist');
+
+    if (courseExist.user.id !== userId)
+      throw new BadRequestException('Your not the creator of this course');
 
     return await this.courseRepository.delete(courseId);
   }
@@ -66,24 +71,6 @@ export class CoursesService {
     return await this.courseRepository.find();
   }
 
-  async filterCourses(search: string) {
-    const courses = await this.courseRepository.find();
-
-    return search.length > 2
-      ? courses.filter((course) =>
-          course.title.toLowerCase().includes(search),
-        )
-      : courses;
-  }
-
-  async filterCoursesByDate(date: DateFilter) {
-    return await this.courseRepository.find({
-      order: {
-        created: date,
-      },
-    });
-  }
-
   async getInstructorDataFromCourse(courseId: string) {
     const existingCourse = await this.findCourseById(courseId);
     if (!existingCourse)
@@ -92,6 +79,7 @@ export class CoursesService {
     const courseInstructor = await this.userService.findOne(
       existingCourse.user.id,
     );
+
     const instructorModified = {
       id: courseInstructor.id,
       email: courseInstructor.email,

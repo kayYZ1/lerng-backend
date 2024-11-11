@@ -6,7 +6,6 @@ import {
   Param,
   Patch,
   Post,
-  Query,
   UseGuards,
 } from '@nestjs/common';
 import { CoursesService } from './courses.service';
@@ -18,7 +17,6 @@ import { ATGuard } from '../common/guards/accessToken.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { UserRole } from '../users/enums/user.enum';
 import { EditCourseDto } from './dto/edit-course.dto';
-import { DateFilter } from './enum/courses.enum';
 
 @Controller('courses')
 export class CoursesController {
@@ -34,33 +32,21 @@ export class CoursesController {
   @Patch('/edit')
   @UseGuards(ATGuard, RolesGuard)
   @ROLES(UserRole.INSTRUCTOR)
-  editCourse(@Body() dto: EditCourseDto) {
-    return this.coursesService.editCourse(dto);
+  editCourse(@Body() dto: EditCourseDto, @GetCurrId() userId: string) {
+    return this.coursesService.editCourse(dto, userId);
   }
 
   @Delete('/remove/:id')
   @UseGuards(ATGuard, RolesGuard)
   @ROLES(UserRole.INSTRUCTOR)
-  removeCourse(@Param('id') id: string) {
-    return this.coursesService.removeCourse(id);
+  removeCourse(@Param('id') id: string, @GetCurrId() userId: string) {
+    return this.coursesService.removeCourse(id, userId);
   }
 
   @Get('/')
   @UseGuards(ATGuard)
   getCourses() {
     return this.coursesService.getCourses();
-  }
-
-  @Post('/query')
-  @UseGuards(ATGuard)
-  filterCourses(@Query('search') search: string) {
-    return this.coursesService.filterCourses(search);
-  }
-
-  @Post('/filter')
-  @UseGuards(ATGuard)
-  filterCoursesByDate(@Query('sort') date: DateFilter) {
-    return this.coursesService.filterCoursesByDate(date);
   }
 
   @Get('/instructor')

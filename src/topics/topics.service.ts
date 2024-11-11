@@ -29,10 +29,13 @@ export class TopicsService {
     return this.topicsRepository.save(topic);
   }
 
-  async editTopic(dto: EditTopicDto) {
+  async editTopic(dto: EditTopicDto, userId: string) {
     const topicExist = await this.findTopicById(dto.topicId);
     if (!topicExist)
       throw new BadRequestException('Topic does not exist.');
+
+    if (topicExist.course.user.id !== userId)
+      throw new BadRequestException('Your not this course instructor.');
 
     return await this.topicsRepository.update(topicExist.id, {
       description: dto.description,
@@ -40,10 +43,13 @@ export class TopicsService {
     });
   }
 
-  async removeTopic(topicId: string) {
+  async removeTopic(topicId: string, userId: string) {
     const topicExist = await this.findTopicById(topicId);
     if (!topicExist)
       throw new BadRequestException('Topic does not exist.');
+
+    if (topicExist.course.user.id !== userId)
+      throw new BadRequestException('Your not this course instructor.');
 
     return await this.topicsRepository.delete(topicId);
   }
@@ -64,6 +70,7 @@ export class TopicsService {
   async findTopicById(topicId: string) {
     return await this.topicsRepository.findOne({
       where: { id: topicId },
+      relations: ['course', 'course.user'],
     });
   }
 }
