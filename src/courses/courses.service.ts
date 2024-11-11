@@ -19,7 +19,8 @@ export class CoursesService {
     const course: Course = new Course();
 
     const instructor = await this.userService.findOne(userId);
-    if (!instructor) throw new BadRequestException('Instructor does not exist');
+    if (!instructor)
+      throw new BadRequestException('Instructor does not exist');
 
     course.title = dto.title;
     course.description = dto.description;
@@ -32,7 +33,8 @@ export class CoursesService {
 
   async editCourse(dto: EditCourseDto) {
     const courseExist = await this.findCourseById(dto.courseId);
-    if (!courseExist) throw new BadRequestException('Course does not exist');
+    if (!courseExist)
+      throw new BadRequestException('Course does not exist');
 
     return await this.courseRepository.update(courseExist.id, {
       description: dto.description,
@@ -40,6 +42,14 @@ export class CoursesService {
       categories: dto.categories,
       imageUrl: dto.imageUrl,
     });
+  }
+
+  async removeCourse(courseId: string) {
+    const courseExist = await this.findCourseById(courseId);
+    if (!courseExist)
+      throw new BadRequestException('Course does not exist');
+
+    return await this.courseRepository.delete(courseId);
   }
 
   async findCourseById(courseId: string) {
@@ -60,7 +70,9 @@ export class CoursesService {
     const courses = await this.courseRepository.find();
 
     return search.length > 2
-      ? courses.filter((course) => course.title.toLowerCase().includes(search))
+      ? courses.filter((course) =>
+          course.title.toLowerCase().includes(search),
+        )
       : courses;
   }
 
@@ -74,7 +86,8 @@ export class CoursesService {
 
   async getInstructorDataFromCourse(courseId: string) {
     const existingCourse = await this.findCourseById(courseId);
-    if (!existingCourse) throw new BadRequestException('Course does not exist');
+    if (!existingCourse)
+      throw new BadRequestException('Course does not exist');
 
     const courseInstructor = await this.userService.findOne(
       existingCourse.user.id,

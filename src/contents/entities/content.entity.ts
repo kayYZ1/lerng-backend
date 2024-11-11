@@ -1,4 +1,9 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Topic } from '../../topics/entities/topics.entity';
 
 @Entity()
@@ -21,6 +26,8 @@ export class Content {
   @Column({ type: 'varchar', nullable: true })
   videoUrl: string;
 
-  @ManyToOne(() => Topic, (topic) => topic.contents)
+  @ManyToOne(() => Topic, (topic) => topic.contents, {
+    onDelete: 'CASCADE',
+  })
   topic: Topic;
 }

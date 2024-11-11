@@ -7,7 +7,11 @@ import { FeedbackController } from './feedback.controller';
 import { FeedbackService } from './feedback.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Feedback]), CoursesModule, UsersModule],
+  imports: [
+    TypeOrmModule.forFeature([Feedback]),
+    CoursesModule,
+    UsersModule,
+  ],
   controllers: [FeedbackController],
   providers: [FeedbackService],
 })

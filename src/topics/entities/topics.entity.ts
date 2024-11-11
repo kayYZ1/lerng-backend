@@ -23,16 +23,24 @@ export class Topic {
   @Column({ type: 'varchar', length: 80 })
   description: string;
 
-  @ManyToOne(() => Course, (course) => course.topics)
+  @ManyToOne(() => Course, (course) => course.topics, {
+    onDelete: 'CASCADE',
+  })
   course: Course;
 
-  @OneToMany(() => Content, (content) => content.topic)
+  @OneToMany(() => Content, (content) => content.topic, {
+    cascade: true,
+  })
   contents: Content[];
 
-  @OneToMany(() => Question, (question) => question.topic)
+  @OneToMany(() => Question, (question) => question.topic, {
+    cascade: true,
+  })
   questions: Question[];
 
-  @OneToMany(() => Progress, (progress) => progress.topic)
+  @OneToMany(() => Progress, (progress) => progress.topic, {
+    cascade: true,
+  })
   topicProgress: Progress[];
 
   @CreateDateColumn({

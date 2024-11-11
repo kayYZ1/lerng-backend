@@ -159,7 +159,8 @@ export class AuthService {
     } catch (error) {
       throw new BadRequestException('Link has already expired');
     } finally {
-      if (!payload) throw new BadRequestException('Link has already expired');
+      if (!payload)
+        throw new BadRequestException('Link has already expired');
       await this.userService.resetUserPassword(payload.sub, dto.password);
     }
   }

@@ -19,7 +19,8 @@ export class QuestionsService {
 
     const topicExist = await this.topicsService.findTopicById(topicId);
 
-    if (!topicExist) throw new BadRequestException('Topic does not exist.');
+    if (!topicExist)
+      throw new BadRequestException('Topic does not exist.');
 
     newQuestion.question = dto.question;
     newQuestion.type = dto.type;
@@ -34,7 +35,8 @@ export class QuestionsService {
       where: { id: dto.questionId },
     });
 
-    if (!questionExist) throw new BadRequestException('Question does not exist.');
+    if (!questionExist)
+      throw new BadRequestException('Question does not exist.');
 
     return this.questionsRepository.update(dto.questionId, {
       question: dto.question,
@@ -46,7 +48,8 @@ export class QuestionsService {
   async getQuestionsFromTopic(topicId: string) {
     const topicExist = await this.topicsService.findTopicById(topicId);
 
-    if (!topicExist) throw new BadRequestException('Topic does not exist.');
+    if (!topicExist)
+      throw new BadRequestException('Topic does not exist.');
 
     const questions = await this.questionsRepository.find({
       where: { topic: { id: topicId } },

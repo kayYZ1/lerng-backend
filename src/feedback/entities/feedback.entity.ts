@@ -21,7 +21,11 @@ export class Feedback {
   @Column({ type: 'varchar', length: 40 })
   problem: string;
 
-  @Column({ type: 'enum', enum: TicketStatus, default: TicketStatus.ACTIVE })
+  @Column({
+    type: 'enum',
+    enum: TicketStatus,
+    default: TicketStatus.ACTIVE,
+  })
   status: TicketStatus;
 
   @Column({ type: 'text', width: 400 })
@@ -45,9 +49,13 @@ export class Feedback {
   @Column({ type: 'varchar', length: 200, default: null })
   feedbackMessage: string | null;
 
-  @ManyToOne(() => Course, (course) => course.feedback)
+  @ManyToOne(() => Course, (course) => course.feedback, {
+    onDelete: 'CASCADE',
+  })
   course: Course;
 
-  @ManyToOne(() => User, (user) => user.feedback)
+  @ManyToOne(() => User, (user) => user.feedback, {
+    onDelete: 'CASCADE',
+  })
   user: User;
 }

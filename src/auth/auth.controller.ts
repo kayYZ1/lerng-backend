@@ -32,7 +32,8 @@ export class AuthController {
 
   @Post('/local/sign-in')
   async signIn(@Body() dto: SignInDto, @Res() res: Response) {
-    const { accessToken, refreshToken } = await this.authService.signIn(dto);
+    const { accessToken, refreshToken } =
+      await this.authService.signIn(dto);
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: false,

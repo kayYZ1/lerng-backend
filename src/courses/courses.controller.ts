@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -35,6 +36,13 @@ export class CoursesController {
   @ROLES(UserRole.INSTRUCTOR)
   editCourse(@Body() dto: EditCourseDto) {
     return this.coursesService.editCourse(dto);
+  }
+
+  @Delete('/remove/:id')
+  @UseGuards(ATGuard, RolesGuard)
+  @ROLES(UserRole.INSTRUCTOR)
+  removeCourse(@Param('id') id: string) {
+    return this.coursesService.removeCourse(id);
   }
 
   @Get('/')
