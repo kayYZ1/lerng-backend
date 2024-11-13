@@ -14,13 +14,19 @@ export class TopicsService {
     private courseService: CoursesService,
   ) {}
 
-  async createTopic(dto: CreateTopicDto, courseId: string) {
+  async createTopic(
+    dto: CreateTopicDto,
+    courseId: string,
+    userId: string,
+  ) {
     const topic: Topic = new Topic();
 
     const courseExist = await this.courseService.findCourseById(courseId);
-
     if (!courseExist)
       throw new BadRequestException('Course does not exist.');
+
+    if (courseExist.user.id !== userId)
+      throw new BadRequestException('You are not this course instructor');
 
     topic.title = dto.title;
     topic.description = dto.description;
@@ -35,7 +41,7 @@ export class TopicsService {
       throw new BadRequestException('Topic does not exist.');
 
     if (topicExist.course.user.id !== userId)
-      throw new BadRequestException('Your not this course instructor.');
+      throw new BadRequestException('You are not this course instructor.');
 
     return await this.topicsRepository.update(topicExist.id, {
       description: dto.description,
@@ -49,7 +55,7 @@ export class TopicsService {
       throw new BadRequestException('Topic does not exist.');
 
     if (topicExist.course.user.id !== userId)
-      throw new BadRequestException('Your not this course instructor.');
+      throw new BadRequestException('You are not this course instructor.');
 
     return await this.topicsRepository.delete(topicId);
   }

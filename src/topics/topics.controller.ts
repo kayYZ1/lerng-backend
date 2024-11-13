@@ -25,8 +25,12 @@ export class TopicsController {
   @Post('/create/:id')
   @UseGuards(ATGuard, RolesGuard)
   @ROLES(UserRole.INSTRUCTOR)
-  createTopic(@Body() dto: CreateTopicDto, @Param('id') id: string) {
-    return this.topicsService.createTopic(dto, id);
+  createTopic(
+    @Body() dto: CreateTopicDto,
+    @Param('id') id: string,
+    @GetCurrId() userId: string,
+  ) {
+    return this.topicsService.createTopic(dto, id, userId);
   }
 
   @Patch('/edit/')

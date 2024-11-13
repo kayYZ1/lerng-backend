@@ -14,12 +14,14 @@ export class ContentsService {
     private topicsService: TopicsService,
   ) {}
 
-  async newContent(dto: NewContentDto, topicId: string) {
+  async newContent(dto: NewContentDto, topicId: string, userId: string) {
     const content = new Content();
 
     const topicExist = await this.topicsService.findTopicById(topicId);
-
     if (!topicExist) throw new BadRequestException('Topic does not exist');
+
+    if (topicExist.course.user.id !== userId)
+      throw new BadRequestException('You are not this course instructor');
 
     content.title = dto.title;
     content.description = dto.description;
