@@ -24,8 +24,12 @@ export class ContentsController {
   @Post('/create/:id')
   @UseGuards(ATGuard, RolesGuard)
   @ROLES(UserRole.INSTRUCTOR)
-  newContent(@Body() dto: NewContentDto, @Param('id') id: string) {
-    return this.contentsService.newContent(dto, id);
+  newContent(
+    @Body() dto: NewContentDto,
+    @Param('id') id: string,
+    @GetCurrId() userId: string,
+  ) {
+    return this.contentsService.newContent(dto, id, userId);
   }
 
   @Patch('/edit')

@@ -17,10 +17,10 @@ export class Content {
   @Column({ type: 'varchar', length: 80 })
   description: string;
 
-  @Column({ type: 'text', width: 150 })
+  @Column({ type: 'text', width: 1000 })
   paragraph150: string;
 
-  @Column({ type: 'text', width: 300 })
+  @Column({ type: 'text', width: 2000 })
   paragraph300: string;
 
   @Column({ type: 'varchar', nullable: true })
