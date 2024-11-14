@@ -12,6 +12,7 @@ import { CreateTopicDto } from './dto/create-topic.dto';
 import { EditTopicDto } from './dto/edit-topic.dto';
 import { TopicsService } from './topics.service';
 
+import { GetCurrId } from 'src/common/decorators/getCurrId.decorator';
 import { ROLES } from '../common/decorators/roles.decorator';
 import { ATGuard } from '../common/guards/accessToken.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
@@ -24,15 +25,19 @@ export class TopicsController {
   @Post('/create/:id')
   @UseGuards(ATGuard, RolesGuard)
   @ROLES(UserRole.INSTRUCTOR)
-  createTopic(@Body() dto: CreateTopicDto, @Param('id') id: string) {
-    return this.topicsService.createTopic(dto, id);
+  createTopic(
+    @Body() dto: CreateTopicDto,
+    @Param('id') id: string,
+    @GetCurrId() userId: string,
+  ) {
+    return this.topicsService.createTopic(dto, id, userId);
   }
 
   @Patch('/edit/')
   @UseGuards(ATGuard, RolesGuard)
   @ROLES(UserRole.INSTRUCTOR)
-  editTopic(@Body() dto: EditTopicDto) {
-    return this.topicsService.editTopic(dto);
+  editTopic(@Body() dto: EditTopicDto, @GetCurrId() userId: string) {
+    return this.topicsService.editTopic(dto, userId);
   }
 
   @Get('/topic/:id')
@@ -44,8 +49,8 @@ export class TopicsController {
   @Delete('/topic/:id')
   @UseGuards(ATGuard, RolesGuard)
   @ROLES(UserRole.INSTRUCTOR)
-  removeTopic(@Param('id') id: string) {
-    return this.topicsService.removeTopic(id);
+  removeTopic(@Param('id') id: string, @GetCurrId() userId: string) {
+    return this.topicsService.removeTopic(id, userId);
   }
 
   @Get('/:id')

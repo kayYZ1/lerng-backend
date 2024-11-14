@@ -8,6 +8,7 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
+import { GetCurrId } from 'src/common/decorators/getCurrId.decorator';
 import { ROLES } from '../common/decorators/roles.decorator';
 import { ATGuard } from '../common/guards/accessToken.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
@@ -23,22 +24,26 @@ export class ContentsController {
   @Post('/create/:id')
   @UseGuards(ATGuard, RolesGuard)
   @ROLES(UserRole.INSTRUCTOR)
-  newContent(@Body() dto: NewContentDto, @Param('id') id: string) {
-    return this.contentsService.addNewContent(dto, id);
+  newContent(
+    @Body() dto: NewContentDto,
+    @Param('id') id: string,
+    @GetCurrId() userId: string,
+  ) {
+    return this.contentsService.newContent(dto, id, userId);
   }
 
   @Patch('/edit')
   @UseGuards(ATGuard, RolesGuard)
   @ROLES(UserRole.INSTRUCTOR)
-  editContent(@Body() dto: EditContentDto) {
-    return this.contentsService.editContent(dto);
+  editContent(@Body() dto: EditContentDto, @GetCurrId() userId: string) {
+    return this.contentsService.editContent(dto, userId);
   }
 
   @Delete('/remove/:id')
   @UseGuards(ATGuard, RolesGuard)
   @ROLES(UserRole.INSTRUCTOR)
-  removeContent(@Param('id') id: string) {
-    return this.contentsService.removeContent(id);
+  removeContent(@Param('id') id: string, @GetCurrId() userId: string) {
+    return this.contentsService.removeContent(id, userId);
   }
 
   @Get('/:id')

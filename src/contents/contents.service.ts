@@ -14,12 +14,14 @@ export class ContentsService {
     private topicsService: TopicsService,
   ) {}
 
-  async addNewContent(dto: NewContentDto, topicId: string) {
+  async newContent(dto: NewContentDto, topicId: string, userId: string) {
     const content = new Content();
 
     const topicExist = await this.topicsService.findTopicById(topicId);
-
     if (!topicExist) throw new BadRequestException('Topic does not exist');
+
+    if (topicExist.course.user.id !== userId)
+      throw new BadRequestException('You are not this course instructor');
 
     content.title = dto.title;
     content.description = dto.description;
@@ -31,10 +33,13 @@ export class ContentsService {
     return this.contentRepository.save(content);
   }
 
-  async editContent(dto: EditContentDto) {
+  async editContent(dto: EditContentDto, userId: string) {
     const contentExist = await this.getContent(dto.contentId);
     if (!contentExist)
       throw new BadRequestException('Content does not exist');
+
+    if (contentExist.topic.course.user.id !== userId)
+      throw new BadRequestException('You are not this course instructor');
 
     return await this.contentRepository.update(contentExist.id, {
       title: dto.title,
@@ -45,10 +50,13 @@ export class ContentsService {
     });
   }
 
-  async removeContent(contentId: string) {
-    const contentExist = await this.getContent(contentId);
+  async removeContent(contentId: string, userId: string) {
+    const contentExist = await this.findContentById(contentId);
     if (!contentExist)
       throw new BadRequestException('Content does not exist');
+
+    if (contentExist.topic.course.user.id !== userId)
+      throw new BadRequestException('You are not this course instructor');
 
     return await this.contentRepository.delete(contentId);
   }
@@ -62,6 +70,13 @@ export class ContentsService {
   async getContent(contentId: string) {
     return await this.contentRepository.findOne({
       where: { id: contentId },
+    });
+  }
+
+  async findContentById(contentId: string) {
+    return await this.contentRepository.findOne({
+      where: { id: contentId },
+      relations: ['topic', 'topic.course.user'],
     });
   }
 }
