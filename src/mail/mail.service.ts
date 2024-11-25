@@ -1,9 +1,14 @@
 import { MailerService } from '@nestjs-modules/mailer';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { UsersService } from 'src/users/users.service';
+import { EmailMessageDto } from './dto/email-message.dto';
 
 @Injectable()
 export class MailService {
-  constructor(private readonly mailerService: MailerService) {}
+  constructor(
+    private readonly mailerService: MailerService,
+    private readonly userService: UsersService,
+  ) {}
 
   async sendTestMail(email: string) {
     const message = 'Hello this is the test mail!';
@@ -18,6 +23,24 @@ export class MailService {
         confirmation_url: message,
       },
       text: message,
+    });
+  }
+
+  async sendEmailToInstructor(instructorId: string, dto: EmailMessageDto) {
+    const userExist = await this.userService.findOne(instructorId);
+
+    if (!userExist || userExist.role !== 'instructor')
+      throw new BadRequestException('Instructor does not exist');
+
+    await this.mailerService.sendMail({
+      from: dto.sender,
+      to: userExist.email,
+      subject: `Message from one of the students: ${dto.topic}`,
+      template: './email-message',
+      context: {
+        sender: dto.sender,
+        message: dto.message,
+      },
     });
   }
 
