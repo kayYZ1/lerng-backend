@@ -31,7 +31,7 @@ export class AuthService {
       throw new BadRequestException('User already exist.');
     }
 
-    const hash = await bcrypt.hash(dto.password, 8);
+    const hash = await bcrypt.hash(dto.password, 12);
     const user = await this.userService.createUser({
       ...dto,
       password: hash,
@@ -55,7 +55,7 @@ export class AuthService {
 
     if (userExist.access === UserAccess.BLOCKED) {
       throw new BadRequestException(
-        'Your access to application has been blocked. Contact administrator for more info.',
+        'Your access to application has been revoked. Contact administrator for more info.',
       );
     }
 
@@ -103,7 +103,7 @@ export class AuthService {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(payload, {
         secret: this.configService.get<string>('jwt.access_token'),
-        expiresIn: '15m',
+        expiresIn: '10m',
       }),
       this.jwtService.signAsync(payload, {
         secret: this.configService.get<string>('jwt.refresh_token'),
@@ -123,7 +123,7 @@ export class AuthService {
       id: userId,
       email: user.email,
       username: user.username,
-      avatar: user.imageUrl,
+      imageUrl: user.imageUrl,
       role: user.role,
     };
 
