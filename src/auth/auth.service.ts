@@ -145,7 +145,10 @@ export class AuthService {
       expiresIn: '5m',
     });
 
-    const resetLink = `http://localhost:8080/auth/forgot-password/${resetToken}`;
+    const resetLink =
+      process.env.NODE_ENV === 'production'
+        ? `https://lerng.netlify.app/auth/forgot-password/${resetToken}`
+        : `http://localhost:8080/auth/forgot-password/${resetToken}`;
 
     await this.mailService.sendPasswordResetMail(dto.email, resetLink);
   }
