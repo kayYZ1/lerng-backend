@@ -8,18 +8,18 @@ export class MailService {
   constructor(
     private readonly mailerService: MailerService,
     private readonly userService: UsersService,
-  ) {}
+  ) { }
 
   async sendTestMail(email: string) {
     const message = 'Hello this is the test mail!';
 
     await this.mailerService.sendMail({
-      from: 'lms-linux<@noreply>',
+      from: 'lerng-test@lerng.site',
       to: email,
       subject: 'Test email!',
       template: './forgot-password',
       context: {
-        name: 'SIEMA',
+        name: 'Testing email sending',
         confirmation_url: message,
       },
       text: message,
@@ -33,7 +33,7 @@ export class MailService {
       throw new BadRequestException('Instructor does not exist');
 
     await this.mailerService.sendMail({
-      from: dto.sender,
+      from: 'email-message@lerng.site',
       to: userExist.email,
       subject: `Message from one of the students: ${dto.topic}`,
       template: './email-message',
@@ -46,7 +46,7 @@ export class MailService {
 
   async sendPasswordResetMail(email: string, resetLink: string) {
     await this.mailerService.sendMail({
-      from: 'lms-linux<@noreply>',
+      from: 'password-reset@lerng.site',
       to: email,
       subject: 'Reset password confirmation',
       template: './forgot-password',

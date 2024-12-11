@@ -20,7 +20,7 @@ export class User {
   @Column({ type: 'varchar', length: 50, unique: true })
   email: string;
 
-  @Column({ type: 'varchar', length: 75 })
+  @Column({ type: 'varchar', length: 65 })
   password: string;
 
   @Column({ type: 'varchar', length: 25, unique: true })
