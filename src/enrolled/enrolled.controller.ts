@@ -67,6 +67,11 @@ export class EnrolledController {
   @UseGuards(ATGuard, RolesGuard)
   @ROLES(UserRole.INSTRUCTOR)
   getEnrolledCoursesStatistics() {
-    return this.enrolledService.coursesStatistics();
+    return this.enrolledService.courseStatistics();
+  }
+
+  @Get('/popular')
+  getPopularCourses() {
+    return this.enrolledService.getPopularCourses();
   }
 }

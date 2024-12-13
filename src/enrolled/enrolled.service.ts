@@ -2,8 +2,9 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { CoursesService } from 'src/courses/courses.service';
-import { UsersService } from 'src/users/users.service';
+import { CoursesService } from '../courses/courses.service';
+import { Course } from '../courses/entities/course.entity';
+import { UsersService } from '../users/users.service';
 import { Enrolled } from './entities/enrolled.entity';
 
 @Injectable()
@@ -95,7 +96,7 @@ export class EnrolledService {
     return averageRating;
   }
 
-  async coursesStatistics() {
+  async courseStatistics() {
     const enrolledCourses = await this.enrolledRepository.find({
       relations: ['course'],
     });
@@ -111,5 +112,28 @@ export class EnrolledService {
     }, {});
 
     return Object.values(statistics);
+  }
+
+  async getPopularCourses() {
+    const enrolledCourses = await this.enrolledRepository.find({
+      relations: ['course'],
+    });
+
+    const popularCourses: Record<
+      string,
+      { course: Course; users: number }
+    > = enrolledCourses.reduce((acc, enrolled) => {
+      const course = enrolled.course;
+      if (!acc[course.id]) {
+        acc[course.id] = { course, users: 0 };
+      }
+      acc[course.id].users++;
+
+      return acc;
+    }, {});
+
+    return Object.values(popularCourses)
+      .sort((a, b) => b.users - a.users)
+      .slice(0, 3); //Return 3 most popular courses
   }
 }

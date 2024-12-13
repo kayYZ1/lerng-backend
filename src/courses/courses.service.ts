@@ -84,7 +84,7 @@ export class CoursesService {
       id: courseInstructor.id,
       email: courseInstructor.email,
       username: courseInstructor.username,
-      avatar: courseInstructor.imageUrl,
+      imageUrl: courseInstructor.imageUrl,
       joined: courseInstructor.created,
     };
 

@@ -8,7 +8,7 @@ export class MailService {
   constructor(
     private readonly mailerService: MailerService,
     private readonly userService: UsersService,
-  ) { }
+  ) {}
 
   async sendTestMail(email: string) {
     const message = 'Hello this is the test mail!';
