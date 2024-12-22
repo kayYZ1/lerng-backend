@@ -16,14 +16,14 @@ export class EnrolledService {
     private courseService: CoursesService,
   ) {}
 
-  async getEnrolledCourses(userId: string) {
+  async getUserEnrolledCourses(userId: string) {
     return await this.enrolledRepository.find({
       where: { user: { id: userId } },
       relations: ['course'],
     });
   }
 
-  async addToEnrolled(userId: string, courseId: string) {
+  async enrollUserInCourse(userId: string, courseId: string) {
     const userExist = await this.userService.findOne(userId);
     const courseExist = await this.courseService.findCourseById(courseId);
 
@@ -46,7 +46,11 @@ export class EnrolledService {
     return this.enrolledRepository.save(enrolled);
   }
 
-  async updateRating(userId: string, courseId: string, rating: number) {
+  async updateCourseRating(
+    userId: string,
+    courseId: string,
+    rating: number,
+  ) {
     const enrolledExist = await this.enrolledRepository.findOne({
       where: {
         user: { id: userId },
@@ -62,20 +66,24 @@ export class EnrolledService {
     return this.enrolledRepository.save(enrolledExist);
   }
 
-  async getRating(userId: string, courseId: string) {
+  async getCourseRating(userId: string, courseId: string) {
     const enrolledExist = await this.enrolledRepository.findOne({
       where: {
         user: { id: userId },
         course: { id: courseId },
       },
+      select: { rating: true },
     });
 
     return enrolledExist.rating;
   }
 
-  async countAverageRating(courseId: string) {
+  async getCourseAverageRating(courseId: string) {
     const enrolledCourses = await this.enrolledRepository.find({
       where: { course: { id: courseId } },
+      select: {
+        rating: true,
+      },
     });
 
     let ratedCourses = 0;
@@ -96,27 +104,48 @@ export class EnrolledService {
     return averageRating;
   }
 
-  async courseStatistics() {
+  async getUserCourseStatistics(userId: string) {
     const enrolledCourses = await this.enrolledRepository.find({
-      relations: ['course'],
+      relations: ['course.user'],
+      select: {
+        course: { id: true, title: true },
+        rating: true,
+        user: { id: true },
+      },
     });
 
-    const statistics = enrolledCourses.reduce((acc, enrollment) => {
-      const course = enrollment.course.title;
+    if (enrolledCourses.length === 0)
+      throw new BadRequestException('No courses found');
+
+    const statistics: Record<
+      string,
+      { course: string; count: number; rating: number }
+    > = enrolledCourses.reduce((acc, enrolled) => {
+      if (enrolled.course.user.id !== userId) return acc;
+
+      const course = enrolled.course.title;
       if (!acc[course]) {
-        acc[course] = { course, count: 0 };
+        acc[course] = { course: course, count: 0, rating: 0 };
       }
       acc[course].count++;
+      acc[course].rating += enrolled.rating;
 
       return acc;
     }, {});
 
-    return Object.values(statistics);
+    return Object.values(statistics).map((stat) => ({
+      course: stat.course,
+      count: stat.count,
+      rating: stat.rating / stat.count,
+    }));
   }
 
-  async getPopularCourses() {
+  async getTopPopularCourses() {
     const enrolledCourses = await this.enrolledRepository.find({
       relations: ['course'],
+      select: {
+        course: { id: true, title: true, description: true },
+      },
     });
 
     const popularCourses: Record<
