@@ -9,7 +9,7 @@ import {
 
 import { Enrolled } from 'src/enrolled/entities/enrolled.entity';
 import { Feedback } from 'src/feedback/entities/feedback.entity';
-import { Topic } from '../../topics/entities/topics.entity';
+import { Topic } from '../../topic/entities/topic.entity';
 import { User } from '../../users/entity/user.entity';
 import { Categories } from '../enum/courses.enum';
 

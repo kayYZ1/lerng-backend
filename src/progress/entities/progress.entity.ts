@@ -5,7 +5,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { Topic } from '../../topics/entities/topics.entity';
+import { Topic } from '../../topic/entities/topic.entity';
 import { User } from '../../users/entity/user.entity';
 
 @Entity()

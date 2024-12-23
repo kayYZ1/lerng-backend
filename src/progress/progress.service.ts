@@ -4,9 +4,9 @@ import { Repository } from 'typeorm';
 import { Progress } from './entities/progress.entity';
 
 import { CoursesService } from 'src/courses/courses.service';
-import { QuestionsService } from 'src/questions/questions.service';
-import { TopicsService } from '../topics/topics.service';
-import { UsersService } from '../users/users.service';
+import { QuestionsService } from 'src/question/question.service';
+import { TopicsService } from '../topic/topic.service';
+import { UsersService } from '../users/user.service';
 import { SaveQuizScoreDto } from './dto/save-quiz.dto';
 
 @Injectable()

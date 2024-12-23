@@ -4,7 +4,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import mailConfig from 'src/config/mail.config';
-import { UsersModule } from 'src/users/users.module';
+import { UsersModule } from 'src/users/user.module';
 import { MailController } from './mail.controller';
 import { MailService } from './mail.service';
 

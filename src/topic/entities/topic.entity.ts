@@ -10,7 +10,7 @@ import {
 import { Content } from '../../contents/entities/content.entity';
 import { Course } from '../../courses/entities/course.entity';
 import { Progress } from '../../progress/entities/progress.entity';
-import { Question } from '../../questions/entities/question.entity';
+import { Question } from '../../question/entities/question.entity';
 
 @Entity()
 export class Topic {

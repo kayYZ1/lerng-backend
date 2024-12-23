@@ -12,7 +12,7 @@ import { CreateUserDto } from './dto/create.dto';
 import { UpdateUserDataDto } from './dto/update-data.dto';
 import { UpdateUserImageDto } from './dto/update-image.dto';
 import { UpdateUserPasswordDto } from './dto/update-password.dto';
-import { UsersService } from './users.service';
+import { UsersService } from './user.service';
 
 import { GetCurrId } from '../common/decorators/getCurrId.decorator';
 import { ROLES } from '../common/decorators/roles.decorator';

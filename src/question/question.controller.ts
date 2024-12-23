@@ -13,7 +13,7 @@ import { RolesGuard } from '../common/guards/roles.guard';
 import { UserRole } from '../users/enums/user.enum';
 import { AddQuestionDto } from './dto/add-question.dto';
 import { EditQuestionDto } from './dto/edit-question.dto';
-import { QuestionsService } from './questions.service';
+import { QuestionsService } from './question.service';
 
 @Controller('questions')
 export class QuestionsController {

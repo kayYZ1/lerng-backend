@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { CoursesService } from '../courses/courses.service';
 import { CreateTopicDto } from './dto/create-topic.dto';
 import { EditTopicDto } from './dto/edit-topic.dto';
-import { Topic } from './entities/topics.entity';
+import { Topic } from './entities/topic.entity';
 
 @Injectable()
 export class TopicsService {

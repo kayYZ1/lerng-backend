@@ -11,7 +11,7 @@ import { MailDto } from 'src/mail/dto/mail.dto';
 import { MailService } from 'src/mail/mail.service';
 import { CreateUserDto } from '../users/dto/create.dto';
 import { UserAccess, UserRole } from '../users/enums/user.enum';
-import { UsersService } from '../users/users.service';
+import { UsersService } from '../users/user.service';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { SignInDto } from './dto/sign-in.dto';
 import { JwtPayload } from './types';

@@ -3,7 +3,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { CoursesService } from 'src/courses/courses.service';
 import { Course } from 'src/courses/entities/course.entity';
 import { User } from 'src/users/entity/user.entity';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from 'src/users/user.service';
 import { Repository } from 'typeorm';
 import { Feedback } from './entities/feedback.entity';
 import { FeedbackService } from './feedback.service';

@@ -10,9 +10,9 @@ import { EnrolledModule } from './enrolled/enrolled.module';
 import { FeedbackModule } from './feedback/feedback.module';
 import { MailModule } from './mail/mail.module';
 import { ProgressModule } from './progress/progress.module';
-import { QuestionsModule } from './questions/questions.module';
-import { TopicsModule } from './topics/topics.module.';
-import { UsersModule } from './users/users.module';
+import { QuestionsModule } from './question/question.module';
+import { TopicsModule } from './topic/topic.module.';
+import { UsersModule } from './users/user.module';
 
 @Module({
   imports: [

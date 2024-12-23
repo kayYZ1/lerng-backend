@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { CreateTopicDto } from './dto/create-topic.dto';
 import { EditTopicDto } from './dto/edit-topic.dto';
-import { TopicsService } from './topics.service';
+import { TopicsService } from './topic.service';
 
 import { GetCurrId } from 'src/common/decorators/getCurrId.decorator';
 import { ROLES } from '../common/decorators/roles.decorator';
