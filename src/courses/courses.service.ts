@@ -96,4 +96,31 @@ export class CoursesService {
       where: { user: { id: userId } },
     });
   }
+
+  async getCategoriesStats() {
+    const allCategories = await this.courseRepository.find({
+      select: {
+        categories: true,
+      },
+    });
+
+    const categoriesMap = new Map<string, number>();
+
+    allCategories.forEach((item) => {
+      item.categories.forEach((category) => {
+        if (categoriesMap.has(category)) {
+          categoriesMap.set(category, categoriesMap.get(category) + 1);
+        } else {
+          categoriesMap.set(category, 1);
+        }
+      });
+    });
+
+    return Array.from(categoriesMap.entries()).map(
+      ([category, count]) => ({
+        category,
+        count,
+      }),
+    );
+  }
 }

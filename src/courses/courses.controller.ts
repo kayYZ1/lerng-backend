@@ -67,4 +67,11 @@ export class CoursesController {
   getCourseById(@Param('id') id: string) {
     return this.coursesService.getCourse(id);
   }
+
+  @Get('/stats/categories')
+  @UseGuards(ATGuard)
+  @ROLES(UserRole.ADMIN)
+  getCategoriesStats() {
+    return this.coursesService.getCategoriesStats();
+  }
 }
