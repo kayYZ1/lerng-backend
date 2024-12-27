@@ -71,4 +71,9 @@ export class UsersController {
   getLatestUsers() {
     return this.usersService.getLatestUsers();
   }
+
+  @Get('/stats/yearly')
+  getUserYearlyStats() {
+    return this.usersService.getUserYearlyStats();
+  }
 }

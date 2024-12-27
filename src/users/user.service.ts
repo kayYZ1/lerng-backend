@@ -148,4 +148,23 @@ export class UsersService {
 
     return this.userRepository.update(dto.userId, userExist);
   }
+
+  async getUserYearlyStats() {
+    const users = await this.userRepository.find({
+      select: {
+        created: true,
+      },
+    });
+
+    const userStats: Record<string, number> = users.reduce((acc, user) => {
+      const year = user.created.getFullYear();
+      acc[year] = (acc[year] || 0) + 1;
+      return acc;
+    }, {});
+
+    return Object.keys(userStats).map((year) => ({
+      year,
+      count: userStats[year],
+    }));
+  }
 }

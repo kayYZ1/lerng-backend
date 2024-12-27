@@ -50,7 +50,7 @@ export class CoursesController {
   }
 
   @Get('/instructor')
-  @UseGuards(ATGuard)
+  @UseGuards(ATGuard, RolesGuard)
   @ROLES(UserRole.INSTRUCTOR)
   getInstructorCourses(@GetCurrId() userId: string) {
     return this.coursesService.getInstructorCourses(userId);
@@ -69,7 +69,7 @@ export class CoursesController {
   }
 
   @Get('/stats/categories')
-  @UseGuards(ATGuard)
+  @UseGuards(ATGuard, RolesGuard)
   @ROLES(UserRole.ADMIN)
   getCategoriesStats() {
     return this.coursesService.getCategoriesStats();
