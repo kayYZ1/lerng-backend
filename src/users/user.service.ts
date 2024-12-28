@@ -162,9 +162,47 @@ export class UsersService {
       return acc;
     }, {});
 
-    return Object.keys(userStats).map((year) => ({
+    const allYears = Object.keys(userStats).map((year) => ({
       year,
       count: userStats[year],
     }));
+
+    return allYears;
+  }
+
+  async getUserMonthlyStats() {
+    const users = await this.userRepository.find({
+      select: {
+        created: true,
+      },
+    });
+
+    const months = {
+      0: 'January',
+      1: 'February',
+      2: 'March',
+      3: 'April',
+      4: 'May',
+      5: 'June',
+      6: 'July',
+      7: 'August',
+      8: 'September',
+      9: 'October',
+      10: 'November',
+      11: 'December',
+    };
+
+    const userStats: Record<string, number> = users.reduce((acc, user) => {
+      const month = months[user.created.getMonth()];
+      acc[month] = (acc[month] || 0) + 1;
+      return acc;
+    }, {});
+
+    const allMonths = Object.values(months).map((month) => ({
+      month,
+      count: userStats[month] || 0,
+    }));
+
+    return allMonths;
   }
 }

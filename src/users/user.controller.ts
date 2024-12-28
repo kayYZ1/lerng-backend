@@ -73,7 +73,14 @@ export class UsersController {
   }
 
   @Get('/stats/yearly')
+  @ROLES(UserRole.ADMIN)
+  @UseGuards(ATGuard, RolesGuard)
   getUserYearlyStats() {
     return this.usersService.getUserYearlyStats();
+  }
+
+  @Get('/stats/monthly')
+  getUserMonthlyStats() {
+    return this.usersService.getUserMonthlyStats();
   }
 }
