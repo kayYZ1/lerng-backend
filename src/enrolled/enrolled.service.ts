@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 
 import { CoursesService } from '../courses/courses.service';
 import { Course } from '../courses/entities/course.entity';
-import { UsersService } from '../users/user.service';
+import { UsersService } from '../user/user.service';
 import { Enrolled } from './entities/enrolled.entity';
 
 @Injectable()

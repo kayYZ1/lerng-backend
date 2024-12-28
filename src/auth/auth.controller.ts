@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 
-import { CreateUserDto } from '../users/dto/create.dto';
+import { CreateUserDto } from '../user/dto/create.dto';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/sign-in.dto';
 

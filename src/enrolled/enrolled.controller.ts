@@ -11,7 +11,7 @@ import { GetCurrId } from 'src/common/decorators/getCurrId.decorator';
 import { ROLES } from 'src/common/decorators/roles.decorator';
 import { ATGuard } from 'src/common/guards/accessToken.guard';
 import { RolesGuard } from 'src/common/guards/roles.guard';
-import { UserRole } from '../users/enums/user.enum';
+import { UserRole } from '../user/enums/user.enum';
 import { UpdateRatingDto } from './dto/update-rating.dto';
 import { EnrolledService } from './enrolled.service';
 

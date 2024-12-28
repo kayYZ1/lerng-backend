@@ -1,6 +1,6 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { UsersService } from 'src/users/user.service';
+import { UsersService } from 'src/user/user.service';
 import { EmailMessageDto } from './dto/email-message.dto';
 
 @Injectable()

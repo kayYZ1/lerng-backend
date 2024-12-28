@@ -6,7 +6,7 @@ import {
 } from 'typeorm';
 
 import { Topic } from '../../topic/entities/topic.entity';
-import { User } from '../../users/entity/user.entity';
+import { User } from '../../user/entity/user.entity';
 
 @Entity()
 export class Progress {

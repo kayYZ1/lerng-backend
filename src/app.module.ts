@@ -12,7 +12,7 @@ import { MailModule } from './mail/mail.module';
 import { ProgressModule } from './progress/progress.module';
 import { QuestionsModule } from './question/question.module';
 import { TopicsModule } from './topic/topic.module.';
-import { UsersModule } from './users/user.module';
+import { UsersModule } from './user/user.module';
 
 @Module({
   imports: [

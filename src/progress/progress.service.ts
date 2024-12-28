@@ -6,7 +6,7 @@ import { Progress } from './entities/progress.entity';
 import { CoursesService } from 'src/courses/courses.service';
 import { QuestionsService } from 'src/question/question.service';
 import { TopicsService } from '../topic/topic.service';
-import { UsersService } from '../users/user.service';
+import { UsersService } from '../user/user.service';
 import { SaveQuizScoreDto } from './dto/save-quiz.dto';
 
 @Injectable()
