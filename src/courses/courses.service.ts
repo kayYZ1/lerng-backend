@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { UsersService } from '../users/users.service';
+import { UsersService } from '../user/user.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { EditCourseDto } from './dto/edit-course.dto';
 import { Course } from './entities/course.entity';
@@ -84,7 +84,7 @@ export class CoursesService {
       id: courseInstructor.id,
       email: courseInstructor.email,
       username: courseInstructor.username,
-      avatar: courseInstructor.imageUrl,
+      imageUrl: courseInstructor.imageUrl,
       joined: courseInstructor.created,
     };
 
@@ -95,5 +95,32 @@ export class CoursesService {
     return await this.courseRepository.find({
       where: { user: { id: userId } },
     });
+  }
+
+  async getCategoriesStats() {
+    const allCategories = await this.courseRepository.find({
+      select: {
+        categories: true,
+      },
+    });
+
+    const categoriesMap = new Map<string, number>();
+
+    allCategories.forEach((item) => {
+      item.categories.forEach((category) => {
+        if (categoriesMap.has(category)) {
+          categoriesMap.set(category, categoriesMap.get(category) + 1);
+        } else {
+          categoriesMap.set(category, 1);
+        }
+      });
+    });
+
+    return Array.from(categoriesMap.entries()).map(
+      ([category, count]) => ({
+        category,
+        count,
+      }),
+    );
   }
 }

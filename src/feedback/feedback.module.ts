@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CoursesModule } from 'src/courses/courses.module';
-import { UsersModule } from 'src/users/users.module';
+import { UsersModule } from 'src/user/user.module';
 import { Feedback } from './entities/feedback.entity';
 import { FeedbackController } from './feedback.controller';
 import { FeedbackService } from './feedback.service';

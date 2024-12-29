@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { CoursesService } from 'src/courses/courses.service';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import { FeedbackTicketDto } from './dto/feedback.dto';
 import { TicketStatusDto } from './dto/ticket-status.dto';

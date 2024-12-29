@@ -10,10 +10,10 @@ import {
 import { ROLES } from '../common/decorators/roles.decorator';
 import { ATGuard } from '../common/guards/accessToken.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
-import { UserRole } from '../users/enums/user.enum';
+import { UserRole } from '../user/enums/user.enum';
 import { AddQuestionDto } from './dto/add-question.dto';
 import { EditQuestionDto } from './dto/edit-question.dto';
-import { QuestionsService } from './questions.service';
+import { QuestionsService } from './question.service';
 
 @Controller('questions')
 export class QuestionsController {

@@ -12,7 +12,7 @@ import { CreateUserDto } from './dto/create.dto';
 import { UpdateUserDataDto } from './dto/update-data.dto';
 import { UpdateUserImageDto } from './dto/update-image.dto';
 import { UpdateUserPasswordDto } from './dto/update-password.dto';
-import { UsersService } from './users.service';
+import { UsersService } from './user.service';
 
 import { GetCurrId } from '../common/decorators/getCurrId.decorator';
 import { ROLES } from '../common/decorators/roles.decorator';
@@ -70,5 +70,17 @@ export class UsersController {
   @Get('/latest-users')
   getLatestUsers() {
     return this.usersService.getLatestUsers();
+  }
+
+  @Get('/stats/yearly')
+  @ROLES(UserRole.ADMIN)
+  @UseGuards(ATGuard, RolesGuard)
+  getUserYearlyStats() {
+    return this.usersService.getUserYearlyStats();
+  }
+
+  @Get('/stats/monthly')
+  getUserMonthlyStats() {
+    return this.usersService.getUserMonthlyStats();
   }
 }

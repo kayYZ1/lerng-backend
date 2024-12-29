@@ -67,7 +67,7 @@ export class UsersService {
     if (isPasswordTheSame)
       throw new BadRequestException("You can't reuse the same password");
 
-    const newPasswordHash = await bcrypt.hash(dto.newPassword, 8);
+    const newPasswordHash = await bcrypt.hash(dto.newPassword, 12);
 
     userExist.password = newPasswordHash;
 
@@ -82,7 +82,7 @@ export class UsersService {
     if (isMatch)
       throw new BadRequestException("You can't reuse the same password");
 
-    const newPasswordHash = await bcrypt.hash(newPassword, 8);
+    const newPasswordHash = await bcrypt.hash(newPassword, 12);
 
     userExist.password = newPasswordHash;
 
@@ -142,11 +142,67 @@ export class UsersService {
     const userExist = await this.userRepository.findOne({
       where: { id: dto.userId },
     });
-
     if (!userExist) throw new BadRequestException('User does not exist');
 
     userExist.access = dto.access;
 
     return this.userRepository.update(dto.userId, userExist);
+  }
+
+  async getUserYearlyStats() {
+    const users = await this.userRepository.find({
+      select: {
+        created: true,
+      },
+    });
+
+    const userStats: Record<string, number> = users.reduce((acc, user) => {
+      const year = user.created.getFullYear();
+      acc[year] = (acc[year] || 0) + 1;
+      return acc;
+    }, {});
+
+    const allYears = Object.keys(userStats).map((year) => ({
+      year,
+      count: userStats[year],
+    }));
+
+    return allYears;
+  }
+
+  async getUserMonthlyStats() {
+    const users = await this.userRepository.find({
+      select: {
+        created: true,
+      },
+    });
+
+    const months = {
+      0: 'January',
+      1: 'February',
+      2: 'March',
+      3: 'April',
+      4: 'May',
+      5: 'June',
+      6: 'July',
+      7: 'August',
+      8: 'September',
+      9: 'October',
+      10: 'November',
+      11: 'December',
+    };
+
+    const userStats: Record<string, number> = users.reduce((acc, user) => {
+      const month = months[user.created.getMonth()];
+      acc[month] = (acc[month] || 0) + 1;
+      return acc;
+    }, {});
+
+    const allMonths = Object.values(months).map((month) => ({
+      month,
+      count: userStats[month] || 0,
+    }));
+
+    return allMonths;
   }
 }

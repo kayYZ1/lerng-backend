@@ -4,7 +4,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Topic } from '../../topics/entities/topics.entity';
+import { Topic } from '../../topic/entities/topic.entity';
 import { QuestionType } from '../enums/question.enum';
 
 @Entity()

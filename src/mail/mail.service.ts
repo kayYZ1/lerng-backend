@@ -1,6 +1,6 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from 'src/user/user.service';
 import { EmailMessageDto } from './dto/email-message.dto';
 
 @Injectable()
@@ -8,7 +8,7 @@ export class MailService {
   constructor(
     private readonly mailerService: MailerService,
     private readonly userService: UsersService,
-  ) { }
+  ) {}
 
   async sendTestMail(email: string) {
     const message = 'Hello this is the test mail!';
