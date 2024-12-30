@@ -69,10 +69,10 @@ export class EnrolledService {
   async getCourseRating(userId: string, courseId: string) {
     const enrolledExist = await this.enrolledRepository.findOne({
       where: {
-        user: { id: userId },
         course: { id: courseId },
+        user: { id: userId },
       },
-      select: { rating: true },
+      select: { id: true, rating: true },
     });
 
     return enrolledExist.rating;
@@ -82,6 +82,7 @@ export class EnrolledService {
     const enrolledCourses = await this.enrolledRepository.find({
       where: { course: { id: courseId } },
       select: {
+        id: true,
         rating: true,
       },
     });
@@ -108,6 +109,7 @@ export class EnrolledService {
     const enrolledCourses = await this.enrolledRepository.find({
       relations: ['course.user'],
       select: {
+        id: true,
         course: { id: true, title: true },
         rating: true,
         user: { id: true },
