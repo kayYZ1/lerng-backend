@@ -16,9 +16,13 @@ export class Enrolled {
   @Column({ type: 'int', default: 0 })
   rating: number;
 
-  @ManyToOne(() => User, (user) => user.enrolled)
+  @ManyToOne(() => User, (user) => user.enrolled, {
+    onDelete: 'CASCADE',
+  })
   user: User;
 
-  @ManyToOne(() => Course, (course) => course.enrolled)
+  @ManyToOne(() => Course, (course) => course.enrolled, {
+    onDelete: 'CASCADE',
+  })
   course: Course;
 }
