@@ -34,9 +34,11 @@ export class ContentsService {
   }
 
   async editContent(dto: EditContentDto, userId: string) {
-    const contentExist = await this.getContent(dto.contentId);
+    const contentExist = await this.findContentById(dto.contentId);
     if (!contentExist)
       throw new BadRequestException('Content does not exist');
+
+    console.log(contentExist);
 
     if (contentExist.topic.course.user.id !== userId)
       throw new BadRequestException('You are not this course instructor');
