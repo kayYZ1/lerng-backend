@@ -17,7 +17,7 @@ Lerng is a platform that allows users to learn Linux for free through interactiv
 
 ## Demo
 
-See: https://lerng.netlify.app/
+See: https://www.lerng.site
 
 
 ## Tech Stack
