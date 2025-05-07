@@ -12,7 +12,7 @@ async function bootstrap() {
     origin: [
       'http://localhost:8080',
       'https://lerng.netlify.app',
-      'https://lerng.site',
+      'https://www.lerng.site',
     ],
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     allowedHeaders: [
