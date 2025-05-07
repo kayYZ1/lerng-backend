@@ -12,6 +12,7 @@ async function bootstrap() {
     origin: [
       'http://localhost:8080',
       'https://lerng.netlify.app',
+      'https://lerng.site',
       'https://www.lerng.site',
     ],
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
@@ -27,6 +28,6 @@ async function bootstrap() {
   });
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(3000);
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
